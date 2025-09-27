@@ -1,189 +1,417 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teen Patti Predator</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Teen Patti Predator - Locked</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-    body {
-      background: url('https://iili.io/K0ZwJJR.md.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
+    :root{
+      --bg-img: url('https://iili.io/K0ZwJJR.md.jpg');
+    }
+
+    /* body & background */
+    html,body{
+      height:100%;
+      margin:0;
+      padding:0;
       font-family: 'Share Tech Mono', monospace;
-      margin: 0;
-      padding: 0;
-      text-align: center;
+      background: var(--bg-img) no-repeat center center fixed;
+      background-size: cover;
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
-    header {
-      padding: 15px;
-      font-size: 22px;
-      font-weight: bold;
-      color: #ff0000;
-      text-shadow: 0 0 15px red, 0 0 25px #ff3300;
+    /* dark overlay to improve contrast */
+    .bg-overlay{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(2px);
+      z-index:0;
     }
 
-    .logo {
-      width: 100px;
-      margin: 10px auto;
-      display: block;
-      border-radius: 50%;
-      box-shadow: 0 0 20px #ff0000;
+    /* App container (hidden until unlock) */
+    #app{
+      position:relative;
+      z-index:1;
+      max-width:980px;
+      margin:0 auto;
+      padding:18px;
+      text-align:center;
     }
 
-    .account {
-      margin: 20px auto;
-      padding: 15px;
-      border: 2px solid #444;
-      border-radius: 12px;
-      width: 90%;
-      background: rgba(0, 0, 0, 0.8);
-      box-shadow: 0 0 15px #222;
+    header{
+      margin-top:8px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
     }
 
-    .account h3 {
-      color: #0ff;
-      margin-bottom: 10px;
+    header .title{
+      font-size:22px;
+      color:#ff2b2b;
+      text-shadow:0 0 15px #ff0000, 0 0 30px #ff5500;
     }
 
-    .details {
-      font-size: 14px;
-      margin-bottom: 10px;
-      color: #aaa;
-    }
-
-    .result {
-      font-size: 22px;
-      font-weight: bold;
-      padding: 8px;
-      border-radius: 8px;
-      display: inline-block;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
+    .logo-large{
+      width:96px;
+      height:96px;
+      border-radius:50%;
+      object-fit:cover;
+      box-shadow:0 0 30px rgba(255,0,0,0.4);
+      border:2px solid rgba(255,255,255,0.06);
     }
 
     /* Timer */
-    .timer-container {
-      margin: 30px 0;
+    .timer-container{
+      margin:22px 0;
     }
-
-    #countdown {
-      font-size: 48px;
-      font-weight: bold;
-      color: red;
-      text-shadow: 0 0 15px #ff0000, 0 0 25px #ff6600, 0 0 50px #ff0000;
+    #countdown{
+      font-size:56px;
+      font-weight:700;
+      color:#ff2b2b;
+      letter-spacing:2px;
+      text-shadow:0 0 18px #ff2b2b, 0 0 36px #ff7a00;
       animation: flicker 1.5s infinite alternate;
       font-family: 'Courier New', monospace;
-      letter-spacing: 3px;
+    }
+    @keyframes flicker {
+      from { opacity:1; text-shadow:0 0 22px #ff2b2b,0 0 44px #ff3300; }
+      to   { opacity:0.72; text-shadow:0 0 30px #ff7a00,0 0 60px #ff2b2b; }
     }
 
-    @keyframes flicker {
-      from {
-        opacity: 1;
-        text-shadow: 0 0 20px #ff0000, 0 0 40px #ff3300, 0 0 60px #ff0000;
-      }
-      to {
-        opacity: 0.7;
-        text-shadow: 0 0 25px #ff6600, 0 0 50px #ff0000, 0 0 80px #ff3300;
-      }
+    /* Accounts list */
+    .accounts{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-bottom:30px;
+    }
+
+    .account{
+      width:calc(50% - 20px);
+      min-width:260px;
+      background: rgba(0,0,0,0.72);
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.04);
+      padding:12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .account .logo{
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      object-fit:cover;
+      position:absolute;
+      top:10px;
+      right:10px;
+      box-shadow:0 0 18px rgba(255,0,0,0.25);
+    }
+
+    .account h3{
+      margin:6px 0 4px 0;
+      font-size:16px;
+      color:#00f0ff;
+    }
+    .account .details{
+      font-size:13px;
+      color:#cfcfcf;
+      margin-bottom:8px;
+    }
+
+    .result{
+      font-size:18px;
+      font-weight:700;
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:8px;
+      animation:pulse 1.6s infinite;
+      letter-spacing:1px;
+    }
+    @keyframes pulse {
+      0%{ transform:scale(1); }
+      50%{ transform:scale(1.08); }
+      100%{ transform:scale(1); }
+    }
+
+    /* status colors */
+    .gold{ color: gold; text-shadow:0 0 10px gold, 0 0 18px rgba(255,215,0,0.2); }
+    .blue{ color: deepskyblue; text-shadow:0 0 10px deepskyblue, 0 0 18px rgba(0,191,255,0.12); }
+    .red{ color: #ff6b6b; text-shadow:0 0 10px #ff6b6b, 0 0 18px rgba(255,0,0,0.08); }
+
+    /* locked modal (full screen) */
+    .lock-modal{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:5;
+      background: linear-gradient(180deg, rgba(0,0,0,0.8), rgba(0,0,0,0.85));
+    }
+
+    .lock-card{
+      width:92%;
+      max-width:420px;
+      padding:22px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(16,16,16,0.96), rgba(6,6,6,0.9));
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 40px rgba(255,0,0,0.06) inset;
+      text-align:center;
+      color:#eee;
+    }
+
+    .lock-card h2{
+      margin:6px 0 12px 0;
+      font-size:20px;
+      color:#ff4444;
+      text-shadow:0 0 12px #ff0000;
+    }
+
+    .lock-card .logo-small{
+      width:84px;
+      height:84px;
+      border-radius:50%;
+      object-fit:cover;
+      margin:0 auto 12px auto;
+      box-shadow:0 0 25px rgba(255,0,0,0.22);
+    }
+
+    .pw-input{
+      width:100%;
+      padding:12px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.06);
+      background:rgba(0,0,0,0.55);
+      color:#fff;
+      font-size:16px;
+      letter-spacing:1px;
+      outline:none;
+      box-shadow:0 6px 20px rgba(0,0,0,0.6) inset;
+      margin-bottom:10px;
+    }
+
+    .pw-actions{
+      display:flex;
+      gap:8px;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .btn{
+      padding:10px 14px;
+      border-radius:8px;
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,0.06);
+      background:linear-gradient(180deg,#111,#080808);
+      color:#fff;
+      font-weight:700;
+      letter-spacing:1px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.6);
+    }
+    .btn:active{ transform:translateY(1px); }
+
+    .error{
+      color:#ff6b6b;
+      margin-top:8px;
+      font-size:14px;
+      height:18px;
+    }
+
+    /* small screens adjustments */
+    @media (max-width:520px){
+      #countdown{ font-size:42px; }
+      .account{ width:100%; }
+      .logo-large{ width:70px; height:70px; }
+      .logo{ width:48px; height:48px; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="https://iili.io/K0ZwJJR.md.jpg" alt="Logo" class="logo">
-    🔥 TEEN PATTI PREDATOR 🔥
-  </header>
 
-  <!-- Timer -->
-  <div class="timer-container">
-    <h2 id="countdown">30:00</h2>
+  <div class="bg-overlay"></div>
+
+  <!-- LOCK MODAL -->
+  <div id="lock" class="lock-modal" aria-hidden="false">
+    <div class="lock-card" role="dialog" aria-label="Protected">
+      <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo-small" alt="logo">
+      <h2>Protected Page</h2>
+      <p style="color:#cfcfcf;margin:0 0 12px 0;">Enter password to view results</p>
+      <input id="passwordInput" class="pw-input" type="password" placeholder="Password" autocomplete="off" />
+      <div class="pw-actions">
+        <button id="unlockBtn" class="btn">Unlock</button>
+        <button id="showBtn" class="btn" type="button">Show</button>
+      </div>
+      <div id="err" class="error"></div>
+      <p style="font-size:12px;color:#888;margin-top:10px;">(Hint: Keep it secure)</p>
+    </div>
   </div>
 
-  <!-- Accounts -->
-  <div class="account">
-    <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo">
-    <h3>ID: 278001 | Gmail: abontihasan5@gmail.com</h3>
-    <p class="details">Device: Galaxy A51 (sm-A515F/DSN)</p>
-    <div class="result" id="result1">Loading...</div>
-  </div>
+  <!-- MAIN APP (hidden until unlock) -->
+  <div id="app" style="display:none;">
+    <header>
+      <img src="https://iili.io/K0ZwJJR.md.jpg" alt="Logo" class="logo-large">
+      <div class="title">🔥 TEEN PATTI PREDATOR 🔥</div>
+    </header>
 
-  <div class="account">
-    <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo">
-    <h3>ID: 230936 | Gmail: vicenza1987@gmail.com</h3>
-    <p class="details">Device: Galaxy A51 (sm-A515F/DSN)</p>
-    <div class="result" id="result2">Loading...</div>
-  </div>
+    <!-- Timer -->
+    <div class="timer-container">
+      <div id="countdown">60:00</div>
+    </div>
 
-  <div class="account">
-    <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo">
-    <h3>ID: 2572481 | Gmail: afnanking016@gmail.com</h3>
-    <p class="details">Device: Vivo v2333</p>
-    <div class="result" id="result3">Loading...</div>
-  </div>
+    <!-- Accounts -->
+    <section class="accounts" aria-live="polite">
+      <div class="account" id="acc1">
+        <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo" alt="logo">
+        <h3>ID: 278001 | Gmail: abontihasan5@gmail.com</h3>
+        <div class="details">Device: XANON X20 </div>
+        <div class="result" id="result1">🎴 Loading...</div>
+      </div>
 
-  <div class="account">
-    <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo">
-    <h3>ID: 273955 | Gmail: 1roseking2550@gmail.com</h3>
-    <p class="details">Device: Redmi 13c (23108RN04Y)</p>
-    <div class="result" id="result4">Loading...</div>
+      <div class="account" id="acc2">
+        <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo" alt="logo">
+        <h3>ID: 230936 | Gmail: hossainvicenza1987@gmail.com</h3>
+        <div class="details">Device: Galaxy A51 (sm-A515F/DSN)</div>
+        <div class="result" id="result2">🎴 Loading...</div>
+      </div>
+
+      <div class="account" id="acc3">
+        <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo" alt="logo">
+        <h3>ID: 257248 | Gmail: afnanking016@gmail.com</h3>
+        <div class="details">Device: Vivo v2333</div>
+        <div class="result" id="result3">🎴 Loading...</div>
+      </div>
+
+      <div class="account" id="acc4">
+        <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo" alt="logo">
+        <h3>ID: 273955 | Gmail: 1roseking2550@gmail.com</h3>
+        <div class="details">Device: Redmi 13c (23108RN04Y)</div>
+        <div class="result" id="result4">🎴 Loading...</div>
+      </div>
+    </section>
   </div>
 
   <script>
-    // Colors & Values
-    const values = ["A", "B", "C"];
-    const colors = ["gold", "deepskyblue", "red"];
+    (function(){
+      const LOCKED_PASSWORD = "SHADOWJOKER369"; // case-sensitive
+      const lockEl = document.getElementById('lock');
+      const appEl = document.getElementById('app');
+      const pwInput = document.getElementById('passwordInput');
+      const unlockBtn = document.getElementById('unlockBtn');
+      const errEl = document.getElementById('err');
+      const showBtn = document.getElementById('showBtn');
 
-    function randomResult() {
-      return {
-        value: values[Math.floor(Math.random() * values.length)],
-        color: colors[Math.floor(Math.random() * colors.length)]
-      };
-    }
-
-    function updateResults() {
-      for (let i = 1; i <= 4; i++) {
-        const res = randomResult();
-        const el = document.getElementById("result" + i);
-        el.innerHTML = "WIN: " + res.value;
-        el.style.color = res.color;
-        el.style.textShadow = `0 0 10px ${res.color}, 0 0 20px ${res.color}`;
+      // helper: shake effect on error
+      function shake(el){
+        el.style.transition = 'transform 0.08s';
+        el.style.transform = 'translateX(-8px)';
+        setTimeout(()=> el.style.transform = 'translateX(8px)',80);
+        setTimeout(()=> el.style.transform = 'translateX(0)',160);
       }
-    }
 
-    setInterval(updateResults, 10000); // প্রতি 10 সেকেন্ডে আপডেট হবে
-    updateResults();
+      // toggle show/hide password
+      showBtn.addEventListener('click', ()=>{
+        if(pwInput.type === 'password'){ pwInput.type = 'text'; showBtn.textContent = 'Hide'; }
+        else { pwInput.type = 'password'; showBtn.textContent = 'Show'; }
+        pwInput.focus();
+      });
 
-    // 30 minutes countdown
-    let time = 30 * 60;
-    const countdownEl = document.getElementById("countdown");
-
-    function updateCountdown() {
-      let minutes = Math.floor(time / 60);
-      let seconds = time % 60;
-
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-
-      countdownEl.innerHTML = `${minutes}:${seconds}`;
-      time--;
-
-      if (time < 0) {
-        countdownEl.innerHTML = "🔥 TIME OVER 🔥";
-        clearInterval(timer);
-        countdownEl.style.color = "gold";
-        countdownEl.style.textShadow = "0 0 25px gold, 0 0 50px red, 0 0 80px darkred";
+      // unlock attempt
+      function tryUnlock(){
+        const val = (pwInput.value || '').trim();
+        if(!val){
+          errEl.textContent = 'Password দিতে হবে।';
+          shake(errEl);
+          return;
+        }
+        if(val === LOCKED_PASSWORD){
+          // success: hide lock and reveal app
+          lockEl.style.display = 'none';
+          appEl.style.display = 'block';
+          errEl.textContent = '';
+          startApp(); // start timers & updates
+        } else {
+          errEl.textContent = 'Password ভুল। পুনরায় চেষ্টা করুন।';
+          shake(errEl);
+          pwInput.value = '';
+          pwInput.focus();
+        }
       }
-    }
 
-    let timer = setInterval(updateCountdown, 1000);
+      unlockBtn.addEventListener('click', tryUnlock);
+      pwInput.addEventListener('keydown', function(e){
+        if(e.key === 'Enter') tryUnlock();
+      });
+
+      // MAIN APP LOGIC (only start after unlock)
+      let resultsInterval = null;
+      let timerInterval = null;
+
+      function startApp(){
+        // start updating results
+        updateResults(); // immediate
+        resultsInterval = setInterval(updateResults, 10000);
+
+        // start 60 min countdown
+        let time = 60 * 60; // seconds
+        const countdownEl = document.getElementById('countdown');
+
+        function updateCountdown(){
+          let minutes = Math.floor(time / 60);
+          let seconds = time % 60;
+          minutes = minutes < 10 ? '0'+minutes : minutes;
+          seconds = seconds < 10 ? '0'+seconds : seconds;
+          countdownEl.textContent = `${minutes}:${seconds}`;
+          time--;
+          if(time < 0){
+            countdownEl.textContent = "🔥 TIME OVER 🔥";
+            countdownEl.style.color = "gold";
+            countdownEl.style.textShadow = "0 0 25px gold, 0 0 50px red, 0 0 80px darkred";
+            clearInterval(timerInterval);
+          }
+        }
+        updateCountdown();
+        timerInterval = setInterval(updateCountdown, 1000);
+      }
+
+      // Random result generator (A,B,C with emojis) and color classes
+      const values = ["A 🂡","B 🂱","C 🂮"];
+      const colorClasses = ["gold","blue","red"];
+      function randomResult(){
+        return {
+          value: values[Math.floor(Math.random()*values.length)],
+          cls: colorClasses[Math.floor(Math.random()*colorClasses.length)]
+        };
+      }
+
+      function updateResults(){
+        for(let i=1;i<=4;i++){
+          const r = randomResult();
+          const el = document.getElementById('result'+i);
+          // clear previous classes
+          el.classList.remove('gold','blue','red');
+          // set
+          el.textContent = 'WIN: ' + r.value + ' 🎉';
+          el.classList.add(r.cls);
+        }
+      }
+
+      // autofocus password input
+      pwInput.focus();
+
+      // Prevent accidental copy of password from UI hint - nothing else done
+      // End IIFE
+    })();
   </script>
 </body>
-</html>
+          </html>
