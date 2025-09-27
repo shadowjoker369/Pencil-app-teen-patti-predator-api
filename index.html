@@ -2,14 +2,13 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>Secure Game Portal</title>
+  <title>Teen Patti System</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #0f2027);
-      background-size: 400% 400%;
-      animation: gradientBG 10s ease infinite;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: #fff;
       display: flex;
       justify-content: center;
@@ -17,188 +16,172 @@
       height: 100vh;
       overflow: hidden;
     }
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+
+    .login-container, .app-container {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 20px cyan;
+      width: 350px;
     }
 
-    .login-container, .game-container {
-      position: relative;
-      padding: 30px;
-      border-radius: 15px;
-      text-align: center;
-      overflow: hidden;
-      background: rgba(0, 0, 0, 0.7);
-      z-index: 1;
+    .login-container img {
+      width: 80px;
+      margin-bottom: 15px;
     }
-    .login-container::before, .game-container::before {
-      content: "";
-      position: absolute;
-      top: -2px; left: -2px; right: -2px; bottom: -2px;
-      background: linear-gradient(270deg, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
-      background-size: 800% 800%;
-      border-radius: 16px;
-      z-index: -1;
-      animation: borderGlow 10s linear infinite;
-    }
-    @keyframes borderGlow {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+
+    .login-container h2 {
+      margin-bottom: 20px;
+      color: cyan;
+      text-shadow: 0 0 10px cyan, 0 0 20px blue;
     }
 
     input {
+      width: 90%;
       padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
       border: none;
-      border-radius: 10px;
-      width: 80%;
-      margin-top: 15px;
-      text-align: center;
       outline: none;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 25px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(45deg, cyan, magenta);
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-      text-shadow: 0 0 5px #fff;
-    }
-    button:hover {
-      background: linear-gradient(45deg, magenta, cyan);
-      transform: scale(1.1);
-    }
-    .winner {
-      font-size: 28px;
-      margin-top: 20px;
-      font-weight: bold;
-      animation: rainbowText 3s infinite linear;
-    }
-    .timer {
-      font-size: 26px;
-      margin-top: 20px;
-      font-weight: bold;
-      animation: rainbowText 5s infinite linear;
-    }
-    @keyframes rainbowText {
-      0% {color: red;}
-      20% {color: orange;}
-      40% {color: yellow;}
-      60% {color: lime;}
-      80% {color: cyan;}
-      100% {color: violet;}
-    }
-    .logo {
-      width: 100px;
-      margin-bottom: 10px;
-      filter: drop-shadow(0 0 10px cyan);
-    }
-    .developer {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #aaa;
-      text-shadow: 0 0 5px #0ff;
+      font-size: 16px;
     }
 
-    /* Modal Style */
+    button {
+      background: cyan;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #00ffea;
+      box-shadow: 0 0 15px cyan;
+    }
+
+    .developer {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #ff9800;
+      text-shadow: 0 0 5px #ff5722;
+    }
+
+    .timer {
+      font-size: 22px;
+      margin: 15px 0;
+      color: yellow;
+      text-shadow: 0 0 8px orange;
+    }
+
+    .winner-box {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #00ffea;
+      text-shadow: 0 0 10px cyan;
+    }
+
+    /* Modal Styles */
     .modal {
-      display: none;
       position: fixed;
-      z-index: 10;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      display: flex;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
       justify-content: center;
       align-items: center;
+      z-index: 999;
     }
+
     .modal-content {
-      background: #111;
-      padding: 25px;
-      border-radius: 12px;
+      background: #222;
+      padding: 30px;
+      border-radius: 15px;
       text-align: center;
-      border: 3px solid red;
-      box-shadow: 0 0 25px red;
-      color: #fff;
-      animation: pulse 1.5s infinite;
+      box-shadow: 0 0 20px red;
+      animation: popup 0.5s ease-in-out;
     }
-    @keyframes pulse {
-      0% {transform: scale(1);}
-      50% {transform: scale(1.1);}
-      100% {transform: scale(1);}
+
+    .modal-content h2 {
+      color: red;
+      text-shadow: 0 0 15px #ff0000, 0 0 25px yellow;
+    }
+
+    @keyframes popup {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Login Page -->
+  <!-- Login Section -->
   <div class="login-container" id="loginPage">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="Logo" class="logo">
-    <h2>🔐 Secure Access</h2>
-    <p>Enter Password to Continue</p>
-    <input type="password" id="password" placeholder="Enter Password"><br>
-    <button onclick="checkPassword()">Login</button>
-    <div class="developer">Developer: <b>Jisan Ahmed</b></div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Logo-placeholder.png" alt="Logo">
+    <h2>Teen Patti Login</h2>
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="checkLogin()">Login</button>
+    <p class="developer">Developer: Jisan Ahmed</p>
   </div>
 
-  <!-- Game Page -->
-  <div class="game-container" id="gamePage" style="display:none;">
-    <h2>🎮 Secure Game Portal 🎮</h2>
-    <div class="timer" id="timer">30:00</div>
-    <div class="winner" id="winner">Winner: ...</div>
+  <!-- Main App -->
+  <div class="app-container" id="appPage" style="display:none;">
+    <h2>Teen Patti System</h2>
+    <div class="timer" id="timer">⏳ 30:00</div>
+    <div class="winner-box" id="winner">Winner: --</div>
   </div>
 
   <!-- Modal -->
   <div class="modal" id="timeoutModal">
     <div class="modal-content">
-      <h2>⏰ আপনার সময় শেষ</h2>
-      <p>অনুমতি নিন</p>
+      <h2>⏳ আপনার সময় শেষ! অনুমতি নিন</h2>
     </div>
   </div>
 
 <script>
-  const PASSWORD = "SHADOWJISAN963";
+  let countdown;
+  let winnerInterval;
 
-  function checkPassword() {
-    let input = document.getElementById("password").value;
-    if (input === PASSWORD) {
+  function checkLogin() {
+    const pass = document.getElementById("password").value;
+    if(pass === "SHADOWJISAN963"){
       document.getElementById("loginPage").style.display = "none";
-      document.getElementById("gamePage").style.display = "block";
-      startGame();
+      document.getElementById("appPage").style.display = "block";
+      startTimer(30*60); // 30 মিনিট
+      startWinners();
     } else {
-      alert("❌ ভুল পাসওয়ার্ড!");
+      alert("❌ ভুল পাসওয়ার্ড!");
     }
   }
 
-  function startGame() {
-    // Timer 30 minutes
-    let time = 30 * 60; 
-    let timerEl = document.getElementById("timer");
-    let modal = document.getElementById("timeoutModal");
-
-    let countdown = setInterval(() => {
+  function startTimer(duration) {
+    let time = duration;
+    countdown = setInterval(() => {
       let minutes = Math.floor(time / 60);
       let seconds = time % 60;
-      timerEl.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-      if (time <= 0) {
+      document.getElementById("timer").innerText = 
+        `⏳ ${minutes}:${seconds < 10 ? "0"+seconds : seconds}`;
+      if (--time < 0) {
         clearInterval(countdown);
-        modal.style.display = "flex";
+        clearInterval(winnerInterval);
+        document.getElementById("timeoutModal").style.display = "flex";
       }
-      time--;
     }, 1000);
+  }
 
-    // Random Winner every 10s
-    let winnerEl = document.getElementById("winner");
-    let winners = ["A", "B", "C"];
-    setInterval(() => {
-      let random = winners[Math.floor(Math.random() * winners.length)];
-      winnerEl.textContent = "Winner: " + random;
-    }, 10000);
+  function startWinners() {
+    const winners = ["A", "B", "C"];
+    winnerInterval = setInterval(() => {
+      let randomWinner = winners[Math.floor(Math.random() * winners.length)];
+      document.getElementById("winner").innerText = `Winner: ${randomWinner}`;
+    }, 10000); // প্রতি ১০ সেকেন্ডে
   }
 </script>
 
