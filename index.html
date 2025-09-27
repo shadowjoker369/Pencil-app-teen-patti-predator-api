@@ -4,9 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TEEN PATTI PREDATOR FOR PENCIL APP</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
 body {
     background: url('https://iili.io/K0ZwJJR.md.jpg') no-repeat center center fixed;
     background-size: cover;
@@ -20,6 +19,53 @@ body {
     overflow-x: hidden;
 }
 
+/* Login Modal */
+#loginModal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#loginModal .login-box {
+    background: rgba(30,30,50,0.95);
+    padding: 30px 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+}
+
+#loginModal input[type="password"] {
+    width: 80%;
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 1em;
+}
+
+#loginModal button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background: #ffd700;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1em;
+    transition: 0.3s;
+}
+
+#loginModal button:hover {
+    background: #ffcc00;
+}
+
+/* Header Info */
 .header-info {
     background: rgba(0,0,0,0.7);
     padding: 15px 25px;
@@ -38,6 +84,7 @@ body {
     text-shadow: 1px 1px 4px #ffcc00;
 }
 
+/* Title & Timer */
 h1 {
     margin: 10px 0;
     font-size: 2em;
@@ -55,6 +102,7 @@ h1 {
     text-shadow: 1px 1px 3px #000;
 }
 
+/* Game container */
 .game-container {
     display: flex;
     flex-direction: column;
@@ -158,38 +206,31 @@ h1 {
     text-shadow: 2px 2px 6px #ffcc00;
 }
 
-@media (max-width: 480px) {
-    .cards {
-        flex-wrap: wrap;
-    }
-    .card {
-        margin: 5px;
-    }
-}
 </style>
 </head>
 <body>
 
-<script>
-let password = prompt("Enter password to access the page:");
-if(password !== "SHADOWJOKER369") {
-    alert("Incorrect password! Access denied.");
-    document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:50px;'>ACCESS DENIED</h1>";
-    throw "Access denied";
-}
-</script>
+<!-- Login Modal -->
+<div id="loginModal">
+    <div class="login-box">
+        <h2>Enter Password</h2>
+        <input type="password" id="loginPassword" placeholder="Password">
+        <br>
+        <button onclick="checkLogin()">Login</button>
+    </div>
+</div>
 
-<div class="header-info">
+<div class="header-info" style="display:none;">
     <p>ID: 273955</p>
     <p>Gmail: 1roseking2550@gmail.com</p>
     <p>Mobile: Redmi 13c / 23108RN04Y</p>
     <p>Password: SHADOWJOKER369</p>
 </div>
 
-<h1>TEEN PATTI PREDATOR FOR PENCIL APP</h1>
-<div class="timer" id="timer">30:00</div>
+<h1 style="display:none;">TEEN PATTI PREDATOR FOR PENCIL APP</h1>
+<div class="timer" id="timer" style="display:none;">30:00</div>
 
-<div class="game-container">
+<div class="game-container" style="display:none;">
     <div class="player-box" id="player-A">
         <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo">
         <h2>PLAYER</h2>
@@ -203,58 +244,28 @@ if(password !== "SHADOWJOKER369") {
 </div>
 
 <script>
+// LOGIN SYSTEM
+function checkLogin(){
+    const input = document.getElementById('loginPassword').value;
+    if(input === "SHADOWJOKER369"){
+        document.getElementById('loginModal').style.display = "none";
+        document.querySelector('.header-info').style.display = "block";
+        document.querySelector('h1').style.display = "block";
+        document.querySelector('.timer').style.display = "block";
+        document.querySelector('.game-container').style.display = "flex";
+        startGame();
+        startTimer();
+    } else {
+        alert("Incorrect password!");
+    }
+}
+
+// GAME LOGIC
 const player = ['player-A'];
 const winLetters = ['A','B','C'];
-const intervalTimes = [6000,7000]; // 6-7 seconds
 
 function flipCards(playerId) {
     const cards = document.querySelectorAll(`#${playerId} .card`);
     cards.forEach(card => {
         card.classList.remove('flipped');
-        setTimeout(() => card.classList.add('flipped'), Math.random() * 600);
-    });
-}
-
-function showWinner() {
-    player.forEach(id => {
-        const playerBox = document.getElementById(id);
-        playerBox.classList.remove('win');
-        playerBox.querySelector('.status').textContent = '';
-    });
-
-    const winningPlayerId = player[0];
-    const winnerBox = document.getElementById(winningPlayerId);
-
-    winnerBox.classList.add('win');
-
-    const randomLetter = winLetters[Math.floor(Math.random() * winLetters.length)];
-    winnerBox.querySelector('.status').textContent = `WINNER: ${randomLetter}`;
-
-    flipCards(winningPlayerId);
-
-    const nextInterval = intervalTimes[Math.floor(Math.random() * intervalTimes.length)];
-    setTimeout(showWinner, nextInterval);
-}
-
-showWinner();
-
-// 30 min timer
-let totalTime = 30 * 60;
-const timerEl = document.getElementById('timer');
-
-function updateTimer() {
-    let minutes = Math.floor(totalTime / 60);
-    let seconds = totalTime % 60;
-    timerEl.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
-    if(totalTime > 0){
-        totalTime--;
-        setTimeout(updateTimer, 1000);
-    } else {
-        timerEl.textContent = "TIME UP!";
-    }
-}
-updateTimer();
-</script>
-
-</body>
-</html>
+        setTimeout(() => card.classList.add('flipped'), Math.random() *
