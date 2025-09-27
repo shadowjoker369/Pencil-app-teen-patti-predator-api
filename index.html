@@ -1,187 +1,243 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Teen Patti System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PENCHIL App Teen Patti Prediction</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
+      background: url("https://iili.io/K0ZwJJR.md.jpg") no-repeat center center/cover;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
       overflow: hidden;
+      position: relative;
     }
-
-    .login-container, .app-container {
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 15px;
+    /* Overlay */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 0;
+    }
+    .login-container, .main-content {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
       padding: 30px;
       text-align: center;
-      box-shadow: 0 0 20px cyan;
-      width: 350px;
+      color: #fff;
+      box-shadow: 0 0 30px cyan;
+      max-width: 400px;
+      width: 100%;
+      animation: fadeIn 1.2s ease;
     }
-
-    .login-container img {
-      width: 80px;
+    .login-container img, .card img {
+      width: 120px;
+      border-radius: 50%;
+      border: 3px solid cyan;
       margin-bottom: 15px;
+      animation: glowPulse 2s infinite alternate;
     }
-
-    .login-container h2 {
-      margin-bottom: 20px;
-      color: cyan;
-      text-shadow: 0 0 10px cyan, 0 0 20px blue;
+    h2 {
+      background: linear-gradient(90deg, cyan, magenta, yellow);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
     }
-
-    input {
-      width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: none;
+    input[type="password"] {
+      padding: 12px;
+      width: 85%;
+      margin: 12px 0;
+      border: 2px solid cyan;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      text-align: center;
+      font-size: 16px;
       outline: none;
-      font-size: 16px;
-    }
-
-    button {
-      background: cyan;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 10px;
       transition: 0.3s;
     }
-
-    button:hover {
-      background: #00ffea;
-      box-shadow: 0 0 15px cyan;
+    input[type="password"]:focus {
+      border-color: lime;
+      box-shadow: 0 0 10px lime;
     }
-
+    button {
+      padding: 12px 25px;
+      background: linear-gradient(45deg, cyan, magenta);
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      color: black;
+      transition: 0.3s;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px magenta;
+    }
+    .card {
+      margin-top: 15px;
+      padding: 25px;
+      border-radius: 20px;
+      border: 2px solid cyan;
+      box-shadow: 0 0 25px cyan;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      animation: floatCard 4s ease-in-out infinite;
+    }
+    .card h2 {
+      font-size: 22px;
+    }
+    .timer {
+      font-size: 26px;
+      margin: 15px 0;
+      font-weight: bold;
+      color: #0ff;
+      text-shadow: 0 0 20px cyan, 0 0 30px lime;
+      font-family: "Courier New", monospace;
+    }
+    .winner {
+      font-size: 22px;
+      font-weight: bold;
+      color: lime;
+      text-shadow: 0 0 15px lime;
+    }
     .developer {
       margin-top: 15px;
       font-size: 14px;
-      color: #ff9800;
-      text-shadow: 0 0 5px #ff5722;
+      color: cyan;
+      text-shadow: 0 0 15px cyan;
     }
-
-    .timer {
-      font-size: 22px;
-      margin: 15px 0;
-      color: yellow;
-      text-shadow: 0 0 8px orange;
-    }
-
-    .winner-box {
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
-      color: #00ffea;
-      text-shadow: 0 0 10px cyan;
-    }
-
-    /* Modal Styles */
+    /* Modal */
     .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
       display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
       justify-content: center;
       align-items: center;
-      z-index: 999;
+      z-index: 9999;
+      animation: fadeIn 1s ease;
     }
-
     .modal-content {
-      background: #222;
-      padding: 30px;
-      border-radius: 15px;
+      background: rgba(255,255,255,0.1);
+      padding: 25px;
+      border-radius: 20px;
       text-align: center;
-      box-shadow: 0 0 20px red;
-      animation: popup 0.5s ease-in-out;
+      color: white;
+      border: 2px solid red;
+      box-shadow: 0 0 25px red;
+      animation: popUp 0.8s ease;
     }
-
     .modal-content h2 {
       color: red;
-      text-shadow: 0 0 15px #ff0000, 0 0 25px yellow;
+      text-shadow: 0 0 15px red;
     }
 
-    @keyframes popup {
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95);}
+      to { opacity: 1; transform: scale(1);}
+    }
+    @keyframes popUp {
       from { transform: scale(0.5); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes glowPulse {
+      from { box-shadow: 0 0 10px cyan; }
+      to { box-shadow: 0 0 30px magenta; }
+    }
+    @keyframes floatCard {
+      0%,100% { transform: translateY(0px);}
+      50% { transform: translateY(-8px);}
     }
   </style>
 </head>
 <body>
 
-  <!-- Login Section -->
-  <div class="login-container" id="loginPage">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Logo-placeholder.png" alt="Logo">
-    <h2>Teen Patti Login</h2>
-    <input type="password" id="password" placeholder="Enter Password">
-    <button onclick="checkLogin()">Login</button>
-    <p class="developer">Developer: Jisan Ahmed</p>
-  </div>
+<div class="login-container" id="loginPage">
+  <img src="https://iili.io/K0ZwJJR.md.jpg" alt="Logo">
+  <h2>Enter Password</h2>
+  <input type="password" id="passwordInput" placeholder="Password">
+  <br>
+  <button onclick="checkPassword()">Login</button>
+</div>
 
-  <!-- Main App -->
-  <div class="app-container" id="appPage" style="display:none;">
-    <h2>Teen Patti System</h2>
-    <div class="timer" id="timer">⏳ 30:00</div>
-    <div class="winner-box" id="winner">Winner: --</div>
+<div class="main-content" id="mainPage" style="display:none;">
+  <div class="card">
+    <img src="https://iili.io/K0ZwJJR.md.jpg" alt="Logo">
+    <h2>PENCHIL App Teen Patti Prediction</h2>
+    <p>CHT CHEN RATE</p>
+    <div class="timer" id="timer">30:00</div>
+    <div class="winner" id="winner">Winner: -</div>
+    <div class="developer">Developer: Jisan Ahmed</div>
   </div>
+</div>
 
-  <!-- Modal -->
-  <div class="modal" id="timeoutModal">
-    <div class="modal-content">
-      <h2>⏳ আপনার সময় শেষ! অনুমতি নিন</h2>
-    </div>
+<!-- Modal -->
+<div class="modal" id="timeUpModal">
+  <div class="modal-content">
+    <h2>⏰ আপনার সময় শেষ!</h2>
+    <p>অনুমতি নিন</p>
+    <button onclick="closeModal()">OK</button>
   </div>
+</div>
 
 <script>
-  let countdown;
-  let winnerInterval;
+  const correctPassword = "SHADOWJISAN963";
+  let timerInterval, winnerInterval;
 
-  function checkLogin() {
-    const pass = document.getElementById("password").value;
-    if(pass === "SHADOWJISAN963"){
+  function checkPassword() {
+    const input = document.getElementById("passwordInput").value;
+    if(input === correctPassword){
       document.getElementById("loginPage").style.display = "none";
-      document.getElementById("appPage").style.display = "block";
-      startTimer(30*60); // 30 মিনিট
-      startWinners();
+      document.getElementById("mainPage").style.display = "block";
+      startTimer(30*60);
+      startWinner();
     } else {
-      alert("❌ ভুল পাসওয়ার্ড!");
+      alert("❌ Wrong Password!");
     }
   }
 
   function startTimer(duration) {
-    let time = duration;
-    countdown = setInterval(() => {
-      let minutes = Math.floor(time / 60);
-      let seconds = time % 60;
-      document.getElementById("timer").innerText = 
-        `⏳ ${minutes}:${seconds < 10 ? "0"+seconds : seconds}`;
-      if (--time < 0) {
-        clearInterval(countdown);
+    let timer = duration, minutes, seconds;
+    timerInterval = setInterval(() => {
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
+      document.getElementById("timer").textContent =
+        `${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+      if (--timer < 0) {
+        clearInterval(timerInterval);
         clearInterval(winnerInterval);
-        document.getElementById("timeoutModal").style.display = "flex";
+        document.getElementById("timeUpModal").style.display = "flex";
       }
     }, 1000);
   }
 
-  function startWinners() {
-    const winners = ["A", "B", "C"];
+  function startWinner() {
+    const choices = ["A", "B", "C"];
     winnerInterval = setInterval(() => {
-      let randomWinner = winners[Math.floor(Math.random() * winners.length)];
-      document.getElementById("winner").innerText = `Winner: ${randomWinner}`;
-    }, 10000); // প্রতি ১০ সেকেন্ডে
+      const randomChoice = choices[Math.floor(Math.random()*choices.length)];
+      document.getElementById("winner").textContent = "Winner: " + randomChoice;
+    }, 10000);
+  }
+
+  function closeModal() {
+    document.getElementById("timeUpModal").style.display = "none";
   }
 </script>
 
