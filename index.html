@@ -1,417 +1,260 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Teen Patti Predator - Locked</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEEN PATTI PREDATOR FOR PENCIL APP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-    :root{
-      --bg-img: url('https://iili.io/K0ZwJJR.md.jpg');
-    }
+body {
+    background: url('https://iili.io/K0ZwJJR.md.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
 
-    /* body & background */
-    html,body{
-      height:100%;
-      margin:0;
-      padding:0;
-      font-family: 'Share Tech Mono', monospace;
-      background: var(--bg-img) no-repeat center center fixed;
-      background-size: cover;
-      color:#fff;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
+.header-info {
+    background: rgba(0,0,0,0.7);
+    padding: 15px 25px;
+    border-radius: 15px;
+    margin: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+}
 
-    /* dark overlay to improve contrast */
-    .bg-overlay{
-      position:fixed;
-      inset:0;
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(2px);
-      z-index:0;
-    }
+.header-info p {
+    margin: 5px 0;
+    font-size: 1em;
+    letter-spacing: 1px;
+    color: #ffd700;
+    text-shadow: 1px 1px 4px #ffcc00;
+}
 
-    /* App container (hidden until unlock) */
-    #app{
-      position:relative;
-      z-index:1;
-      max-width:980px;
-      margin:0 auto;
-      padding:18px;
-      text-align:center;
-    }
+h1 {
+    margin: 10px 0;
+    font-size: 2em;
+    color: #ffd700;
+    text-align: center;
+    text-shadow: 2px 2px 6px #ffcc00;
+    padding: 0 10px;
+}
 
-    header{
-      margin-top:8px;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-    }
+.timer {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #00ff00;
+    text-shadow: 1px 1px 3px #000;
+}
 
-    header .title{
-      font-size:22px;
-      color:#ff2b2b;
-      text-shadow:0 0 15px #ff0000, 0 0 30px #ff5500;
-    }
+.game-container {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    max-width: 450px;
+}
 
-    .logo-large{
-      width:96px;
-      height:96px;
-      border-radius:50%;
-      object-fit:cover;
-      box-shadow:0 0 30px rgba(255,0,0,0.4);
-      border:2px solid rgba(255,255,255,0.06);
-    }
+.player-box {
+    background: rgba(44,44,60,0.8);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    margin: 15px 0;
+    transition: transform 0.5s, box-shadow 0.5s;
+    border: 2px solid #555;
+    position: relative;
+    backdrop-filter: blur(8px);
+}
 
-    /* Timer */
-    .timer-container{
-      margin:22px 0;
-    }
-    #countdown{
-      font-size:56px;
-      font-weight:700;
-      color:#ff2b2b;
-      letter-spacing:2px;
-      text-shadow:0 0 18px #ff2b2b, 0 0 36px #ff7a00;
-      animation: flicker 1.5s infinite alternate;
-      font-family: 'Courier New', monospace;
-    }
-    @keyframes flicker {
-      from { opacity:1; text-shadow:0 0 22px #ff2b2b,0 0 44px #ff3300; }
-      to   { opacity:0.72; text-shadow:0 0 30px #ff7a00,0 0 60px #ff2b2b; }
-    }
+.player-box img.logo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    opacity: 0.9;
+}
 
-    /* Accounts list */
-    .accounts{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      justify-content:center;
-      margin-bottom:30px;
-    }
+.player-box.win {
+    border-color: #ffd700;
+    box-shadow: 0 0 25px #ffd700, 0 0 40px #ffcc00 inset;
+    transform: scale(1.05);
+}
 
-    .account{
-      width:calc(50% - 20px);
-      min-width:260px;
-      background: rgba(0,0,0,0.72);
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.04);
-      padding:12px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-      position:relative;
-      overflow:hidden;
-    }
+.player-box h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
 
-    .account .logo{
-      width:56px;
-      height:56px;
-      border-radius:50%;
-      object-fit:cover;
-      position:absolute;
-      top:10px;
-      right:10px;
-      box-shadow:0 0 18px rgba(255,0,0,0.25);
-    }
+.cards {
+    display: flex;
+    justify-content: center;
+    perspective: 1000px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
 
-    .account h3{
-      margin:6px 0 4px 0;
-      font-size:16px;
-      color:#00f0ff;
-    }
-    .account .details{
-      font-size:13px;
-      color:#cfcfcf;
-      margin-bottom:8px;
-    }
+.card {
+    width: 60px;
+    height: 90px;
+    margin: 5px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
+    position: relative;
+}
 
-    .result{
-      font-size:18px;
-      font-weight:700;
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:8px;
-      animation:pulse 1.6s infinite;
-      letter-spacing:1px;
-    }
-    @keyframes pulse {
-      0%{ transform:scale(1); }
-      50%{ transform:scale(1.08); }
-      100%{ transform:scale(1); }
-    }
+.card.flipped {
+    transform: rotateY(180deg);
+}
 
-    /* status colors */
-    .gold{ color: gold; text-shadow:0 0 10px gold, 0 0 18px rgba(255,215,0,0.2); }
-    .blue{ color: deepskyblue; text-shadow:0 0 10px deepskyblue, 0 0 18px rgba(0,191,255,0.12); }
-    .red{ color: #ff6b6b; text-shadow:0 0 10px #ff6b6b, 0 0 18px rgba(255,0,0,0.08); }
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+}
 
-    /* locked modal (full screen) */
-    .lock-modal{
-      position:fixed;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      z-index:5;
-      background: linear-gradient(180deg, rgba(0,0,0,0.8), rgba(0,0,0,0.85));
-    }
+.card-front {
+    background: #1e1e2f;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
 
-    .lock-card{
-      width:92%;
-      max-width:420px;
-      padding:22px;
-      border-radius:12px;
-      background: linear-gradient(180deg, rgba(16,16,16,0.96), rgba(6,6,6,0.9));
-      border:1px solid rgba(255,255,255,0.04);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 40px rgba(255,0,0,0.06) inset;
-      text-align:center;
-      color:#eee;
-    }
+.card-back {
+    background: #ffd700;
+    transform: rotateY(180deg);
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    .lock-card h2{
-      margin:6px 0 12px 0;
-      font-size:20px;
-      color:#ff4444;
-      text-shadow:0 0 12px #ff0000;
-    }
+.status {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #fff;
+    margin-top: 5px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
 
-    .lock-card .logo-small{
-      width:84px;
-      height:84px;
-      border-radius:50%;
-      object-fit:cover;
-      margin:0 auto 12px auto;
-      box-shadow:0 0 25px rgba(255,0,0,0.22);
-    }
+.player-box.win .status {
+    color: #ffd700;
+    text-shadow: 2px 2px 6px #ffcc00;
+}
 
-    .pw-input{
-      width:100%;
-      padding:12px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,0.06);
-      background:rgba(0,0,0,0.55);
-      color:#fff;
-      font-size:16px;
-      letter-spacing:1px;
-      outline:none;
-      box-shadow:0 6px 20px rgba(0,0,0,0.6) inset;
-      margin-bottom:10px;
+@media (max-width: 480px) {
+    .cards {
+        flex-wrap: wrap;
     }
-
-    .pw-actions{
-      display:flex;
-      gap:8px;
-      justify-content:center;
-      align-items:center;
+    .card {
+        margin: 5px;
     }
-
-    .btn{
-      padding:10px 14px;
-      border-radius:8px;
-      cursor:pointer;
-      border:1px solid rgba(255,255,255,0.06);
-      background:linear-gradient(180deg,#111,#080808);
-      color:#fff;
-      font-weight:700;
-      letter-spacing:1px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.6);
-    }
-    .btn:active{ transform:translateY(1px); }
-
-    .error{
-      color:#ff6b6b;
-      margin-top:8px;
-      font-size:14px;
-      height:18px;
-    }
-
-    /* small screens adjustments */
-    @media (max-width:520px){
-      #countdown{ font-size:42px; }
-      .account{ width:100%; }
-      .logo-large{ width:70px; height:70px; }
-      .logo{ width:48px; height:48px; }
-    }
-  </style>
+}
+</style>
 </head>
 <body>
 
-  <div class="bg-overlay"></div>
+<script>
+let password = prompt("Enter password to access the page:");
+if(password !== "SHADOWJOKER369") {
+    alert("Incorrect password! Access denied.");
+    document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:50px;'>ACCESS DENIED</h1>";
+    throw "Access denied";
+}
+</script>
 
-  <!-- LOCK MODAL -->
-  <div id="lock" class="lock-modal" aria-hidden="false">
-    <div class="lock-card" role="dialog" aria-label="Protected">
-      <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo-small" alt="logo">
-      <h2>Protected Page</h2>
-      <p style="color:#cfcfcf;margin:0 0 12px 0;">Enter password to view results</p>
-      <input id="passwordInput" class="pw-input" type="password" placeholder="Password" autocomplete="off" />
-      <div class="pw-actions">
-        <button id="unlockBtn" class="btn">Unlock</button>
-        <button id="showBtn" class="btn" type="button">Show</button>
-      </div>
-      <div id="err" class="error"></div>
-      <p style="font-size:12px;color:#888;margin-top:10px;">(Hint: Keep it secure)</p>
+<div class="header-info">
+    <p>ID: 273955</p>
+    <p>Gmail: 1roseking2550@gmail.com</p>
+    <p>Mobile: Redmi 13c / 23108RN04Y</p>
+    <p>Password: SHADOWJOKER369</p>
+</div>
+
+<h1>TEEN PATTI PREDATOR FOR PENCIL APP</h1>
+<div class="timer" id="timer">30:00</div>
+
+<div class="game-container">
+    <div class="player-box" id="player-A">
+        <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo">
+        <h2>PLAYER</h2>
+        <div class="cards">
+            <div class="card"><div class="card-face card-front">🂡</div><div class="card-face card-back">🂱</div></div>
+            <div class="card"><div class="card-face card-front">🂢</div><div class="card-face card-back">🂲</div></div>
+            <div class="card"><div class="card-face card-front">🂣</div><div class="card-face card-back">🂳</div></div>
+        </div>
+        <p class="status"></p>
     </div>
-  </div>
+</div>
 
-  <!-- MAIN APP (hidden until unlock) -->
-  <div id="app" style="display:none;">
-    <header>
-      <img src="https://iili.io/K0ZwJJR.md.jpg" alt="Logo" class="logo-large">
-      <div class="title">🔥 TEEN PATTI PREDATOR 🔥</div>
-    </header>
+<script>
+const player = ['player-A'];
+const winLetters = ['A','B','C'];
+const intervalTimes = [6000,7000]; // 6-7 seconds
 
-    <!-- Timer -->
-    <div class="timer-container">
-      <div id="countdown">60:00</div>
-    </div>
+function flipCards(playerId) {
+    const cards = document.querySelectorAll(`#${playerId} .card`);
+    cards.forEach(card => {
+        card.classList.remove('flipped');
+        setTimeout(() => card.classList.add('flipped'), Math.random() * 600);
+    });
+}
 
-    <!-- Accounts -->
-    <section class="accounts" aria-live="polite">
-      <div class="account" id="acc1">
-        <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo" alt="logo">
-        <h3>ID: 278001 | Gmail: abontihasan5@gmail.com</h3>
-        <div class="details">Device: XANON X20 </div>
-        <div class="result" id="result1">🎴 Loading...</div>
-      </div>
+function showWinner() {
+    player.forEach(id => {
+        const playerBox = document.getElementById(id);
+        playerBox.classList.remove('win');
+        playerBox.querySelector('.status').textContent = '';
+    });
 
-      <div class="account" id="acc2">
-        <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo" alt="logo">
-        <h3>ID: 230936 | Gmail: hossainvicenza1987@gmail.com</h3>
-        <div class="details">Device: Galaxy A51 (sm-A515F/DSN)</div>
-        <div class="result" id="result2">🎴 Loading...</div>
-      </div>
+    const winningPlayerId = player[0];
+    const winnerBox = document.getElementById(winningPlayerId);
 
-      <div class="account" id="acc3">
-        <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo" alt="logo">
-        <h3>ID: 257248 | Gmail: afnanking016@gmail.com</h3>
-        <div class="details">Device: Vivo v2333</div>
-        <div class="result" id="result3">🎴 Loading...</div>
-      </div>
+    winnerBox.classList.add('win');
 
-      <div class="account" id="acc4">
-        <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo" alt="logo">
-        <h3>ID: 273955 | Gmail: 1roseking2550@gmail.com</h3>
-        <div class="details">Device: Redmi 13c (23108RN04Y)</div>
-        <div class="result" id="result4">🎴 Loading...</div>
-      </div>
-    </section>
-  </div>
+    const randomLetter = winLetters[Math.floor(Math.random() * winLetters.length)];
+    winnerBox.querySelector('.status').textContent = `WINNER: ${randomLetter}`;
 
-  <script>
-    (function(){
-      const LOCKED_PASSWORD = "SHADOWJOKER369"; // case-sensitive
-      const lockEl = document.getElementById('lock');
-      const appEl = document.getElementById('app');
-      const pwInput = document.getElementById('passwordInput');
-      const unlockBtn = document.getElementById('unlockBtn');
-      const errEl = document.getElementById('err');
-      const showBtn = document.getElementById('showBtn');
+    flipCards(winningPlayerId);
 
-      // helper: shake effect on error
-      function shake(el){
-        el.style.transition = 'transform 0.08s';
-        el.style.transform = 'translateX(-8px)';
-        setTimeout(()=> el.style.transform = 'translateX(8px)',80);
-        setTimeout(()=> el.style.transform = 'translateX(0)',160);
-      }
+    const nextInterval = intervalTimes[Math.floor(Math.random() * intervalTimes.length)];
+    setTimeout(showWinner, nextInterval);
+}
 
-      // toggle show/hide password
-      showBtn.addEventListener('click', ()=>{
-        if(pwInput.type === 'password'){ pwInput.type = 'text'; showBtn.textContent = 'Hide'; }
-        else { pwInput.type = 'password'; showBtn.textContent = 'Show'; }
-        pwInput.focus();
-      });
+showWinner();
 
-      // unlock attempt
-      function tryUnlock(){
-        const val = (pwInput.value || '').trim();
-        if(!val){
-          errEl.textContent = 'Password দিতে হবে।';
-          shake(errEl);
-          return;
-        }
-        if(val === LOCKED_PASSWORD){
-          // success: hide lock and reveal app
-          lockEl.style.display = 'none';
-          appEl.style.display = 'block';
-          errEl.textContent = '';
-          startApp(); // start timers & updates
-        } else {
-          errEl.textContent = 'Password ভুল। পুনরায় চেষ্টা করুন।';
-          shake(errEl);
-          pwInput.value = '';
-          pwInput.focus();
-        }
-      }
+// 30 min timer
+let totalTime = 30 * 60;
+const timerEl = document.getElementById('timer');
 
-      unlockBtn.addEventListener('click', tryUnlock);
-      pwInput.addEventListener('keydown', function(e){
-        if(e.key === 'Enter') tryUnlock();
-      });
+function updateTimer() {
+    let minutes = Math.floor(totalTime / 60);
+    let seconds = totalTime % 60;
+    timerEl.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+    if(totalTime > 0){
+        totalTime--;
+        setTimeout(updateTimer, 1000);
+    } else {
+        timerEl.textContent = "TIME UP!";
+    }
+}
+updateTimer();
+</script>
 
-      // MAIN APP LOGIC (only start after unlock)
-      let resultsInterval = null;
-      let timerInterval = null;
-
-      function startApp(){
-        // start updating results
-        updateResults(); // immediate
-        resultsInterval = setInterval(updateResults, 10000);
-
-        // start 60 min countdown
-        let time = 60 * 60; // seconds
-        const countdownEl = document.getElementById('countdown');
-
-        function updateCountdown(){
-          let minutes = Math.floor(time / 60);
-          let seconds = time % 60;
-          minutes = minutes < 10 ? '0'+minutes : minutes;
-          seconds = seconds < 10 ? '0'+seconds : seconds;
-          countdownEl.textContent = `${minutes}:${seconds}`;
-          time--;
-          if(time < 0){
-            countdownEl.textContent = "🔥 TIME OVER 🔥";
-            countdownEl.style.color = "gold";
-            countdownEl.style.textShadow = "0 0 25px gold, 0 0 50px red, 0 0 80px darkred";
-            clearInterval(timerInterval);
-          }
-        }
-        updateCountdown();
-        timerInterval = setInterval(updateCountdown, 1000);
-      }
-
-      // Random result generator (A,B,C with emojis) and color classes
-      const values = ["A 🂡","B 🂱","C 🂮"];
-      const colorClasses = ["gold","blue","red"];
-      function randomResult(){
-        return {
-          value: values[Math.floor(Math.random()*values.length)],
-          cls: colorClasses[Math.floor(Math.random()*colorClasses.length)]
-        };
-      }
-
-      function updateResults(){
-        for(let i=1;i<=4;i++){
-          const r = randomResult();
-          const el = document.getElementById('result'+i);
-          // clear previous classes
-          el.classList.remove('gold','blue','red');
-          // set
-          el.textContent = 'WIN: ' + r.value + ' 🎉';
-          el.classList.add(r.cls);
-        }
-      }
-
-      // autofocus password input
-      pwInput.focus();
-
-      // Prevent accidental copy of password from UI hint - nothing else done
-      // End IIFE
-    })();
-  </script>
 </body>
-          </html>
+</html>
