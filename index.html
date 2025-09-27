@@ -1,303 +1,205 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TEEN PATTI PREDATOR FOR PENCIL APP</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<style>
-body {
-    background: url('https://iili.io/K0ZwJJR.md.jpg') no-repeat center center fixed;
-    background-size: cover;
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
+  <meta charset="UTF-8">
+  <title>Secure Game Portal</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #0f2027);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
 
-/* Login Modal */
-#loginModal {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
+    .login-container, .game-container {
+      position: relative;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1;
+    }
+    .login-container::before, .game-container::before {
+      content: "";
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      background: linear-gradient(270deg, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000);
+      background-size: 800% 800%;
+      border-radius: 16px;
+      z-index: -1;
+      animation: borderGlow 10s linear infinite;
+    }
+    @keyframes borderGlow {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
 
-#loginModal .login-box {
-    background: rgba(30,30,50,0.95);
-    padding: 30px 40px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.7);
-}
+    input {
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      width: 80%;
+      margin-top: 15px;
+      text-align: center;
+      outline: none;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(45deg, cyan, magenta);
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      text-shadow: 0 0 5px #fff;
+    }
+    button:hover {
+      background: linear-gradient(45deg, magenta, cyan);
+      transform: scale(1.1);
+    }
+    .winner {
+      font-size: 28px;
+      margin-top: 20px;
+      font-weight: bold;
+      animation: rainbowText 3s infinite linear;
+    }
+    .timer {
+      font-size: 26px;
+      margin-top: 20px;
+      font-weight: bold;
+      animation: rainbowText 5s infinite linear;
+    }
+    @keyframes rainbowText {
+      0% {color: red;}
+      20% {color: orange;}
+      40% {color: yellow;}
+      60% {color: lime;}
+      80% {color: cyan;}
+      100% {color: violet;}
+    }
+    .logo {
+      width: 100px;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 0 10px cyan);
+    }
+    .developer {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #aaa;
+      text-shadow: 0 0 5px #0ff;
+    }
 
-#loginModal input[type="password"] {
-    width: 80%;
-    padding: 10px;
-    margin: 15px 0;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    font-size: 1em;
-}
-
-#loginModal button {
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: none;
-    background: #ffd700;
-    color: #000;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 1em;
-    transition: 0.3s;
-}
-
-#loginModal button:hover {
-    background: #ffcc00;
-}
-
-/* Header Info */
-.header-info {
-    background: rgba(0,0,0,0.7);
-    padding: 15px 25px;
-    border-radius: 15px;
-    margin: 20px 0;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    backdrop-filter: blur(8px);
-}
-
-.header-info p {
-    margin: 5px 0;
-    font-size: 1em;
-    letter-spacing: 1px;
-    color: #ffd700;
-    text-shadow: 1px 1px 4px #ffcc00;
-}
-
-/* Title & Timer */
-h1 {
-    margin: 10px 0;
-    font-size: 2em;
-    color: #ffd700;
-    text-align: center;
-    text-shadow: 2px 2px 6px #ffcc00;
-    padding: 0 10px;
-}
-
-.timer {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #00ff00;
-    text-shadow: 1px 1px 3px #000;
-}
-
-/* Game container */
-.game-container {
-    display: flex;
-    flex-direction: column;
-    width: 95%;
-    max-width: 450px;
-}
-
-.player-box {
-    background: rgba(44,44,60,0.8);
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-    margin: 15px 0;
-    transition: transform 0.5s, box-shadow 0.5s;
-    border: 2px solid #555;
-    position: relative;
-    backdrop-filter: blur(8px);
-}
-
-.player-box img.logo {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 40px;
-    opacity: 0.9;
-}
-
-.player-box.win {
-    border-color: #ffd700;
-    box-shadow: 0 0 25px #ffd700, 0 0 40px #ffcc00 inset;
-    transform: scale(1.05);
-}
-
-.player-box h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-}
-
-.cards {
-    display: flex;
-    justify-content: center;
-    perspective: 1000px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-}
-
-.card {
-    width: 60px;
-    height: 90px;
-    margin: 5px;
-    transform-style: preserve-3d;
-    transition: transform 0.6s;
-    cursor: pointer;
-    position: relative;
-}
-
-.card.flipped {
-    transform: rotateY(180deg);
-}
-
-.card-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    backface-visibility: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2em;
-}
-
-.card-front {
-    background: #1e1e2f;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
-
-.card-back {
-    background: #ffd700;
-    transform: rotateY(180deg);
-    font-weight: bold;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.status {
-    font-weight: bold;
-    font-size: 1.2em;
-    color: #fff;
-    margin-top: 5px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-}
-
-.player-box.win .status {
-    color: #ffd700;
-    text-shadow: 2px 2px 6px #ffcc00;
-}
-</style>
+    /* Modal Style */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #111;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      border: 3px solid red;
+      box-shadow: 0 0 25px red;
+      color: #fff;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% {transform: scale(1);}
+      50% {transform: scale(1.1);}
+      100% {transform: scale(1);}
+    }
+  </style>
 </head>
 <body>
 
-<!-- Login Modal -->
-<div id="loginModal">
-    <div class="login-box">
-        <h2>Enter Password</h2>
-        <input type="password" id="loginPassword" placeholder="Password">
-        <br>
-        <button onclick="checkLogin()">Login</button>
+  <!-- Login Page -->
+  <div class="login-container" id="loginPage">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="Logo" class="logo">
+    <h2>🔐 Secure Access</h2>
+    <p>Enter Password to Continue</p>
+    <input type="password" id="password" placeholder="Enter Password"><br>
+    <button onclick="checkPassword()">Login</button>
+    <div class="developer">Developer: <b>Jisan Ahmed</b></div>
+  </div>
+
+  <!-- Game Page -->
+  <div class="game-container" id="gamePage" style="display:none;">
+    <h2>🎮 Secure Game Portal 🎮</h2>
+    <div class="timer" id="timer">30:00</div>
+    <div class="winner" id="winner">Winner: ...</div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="timeoutModal">
+    <div class="modal-content">
+      <h2>⏰ আপনার সময় শেষ</h2>
+      <p>অনুমতি নিন</p>
     </div>
-</div>
-
-<div class="header-info" style="display:none;">
-    <p>ID: 273955</p>
-    <p>Gmail: 1roseking2550@gmail.com</p>
-    <p>Mobile: Redmi 13c / 23108RN04Y</p>
-    <p>Password: SHADOWJOKER369</p>
-</div>
-
-<h1 style="display:none;">TEEN PATTI PREDATOR FOR PENCIL APP</h1>
-<div class="timer" id="timer" style="display:none;">30:00</div>
-
-<div class="game-container" style="display:none;">
-    <div class="player-box" id="player-A">
-        <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo">
-        <h2>PLAYER</h2>
-        <div class="cards">
-            <div class="card"><div class="card-face card-front">🂡</div><div class="card-face card-back">🂱</div></div>
-            <div class="card"><div class="card-face card-front">🂢</div><div class="card-face card-back">🂲</div></div>
-            <div class="card"><div class="card-face card-front">🂣</div><div class="card-face card-back">🂳</div></div>
-        </div>
-        <p class="status"></p>
-    </div>
-</div>
+  </div>
 
 <script>
-// LOGIN SYSTEM
-function checkLogin(){
-    const input = document.getElementById('loginPassword').value;
-    if(input === "SHADOWJOKER369"){
-        document.getElementById('loginModal').style.display = "none";
-        document.querySelector('.header-info').style.display = "block";
-        document.querySelector('h1').style.display = "block";
-        document.querySelector('.timer').style.display = "block";
-        document.querySelector('.game-container').style.display = "flex";
-        startGame();
-        startTimer();
+  const PASSWORD = "SHADOWJISAN963";
+
+  function checkPassword() {
+    let input = document.getElementById("password").value;
+    if (input === PASSWORD) {
+      document.getElementById("loginPage").style.display = "none";
+      document.getElementById("gamePage").style.display = "block";
+      startGame();
     } else {
-        alert("Incorrect password!");
+      alert("❌ ভুল পাসওয়ার্ড!");
     }
-}
+  }
 
-// TIMER 30 MINUTES
-function startTimer() {
-    let time = 30 * 60; // 30 min in seconds
-    const timerEl = document.getElementById('timer');
+  function startGame() {
+    // Timer 30 minutes
+    let time = 30 * 60; 
+    let timerEl = document.getElementById("timer");
+    let modal = document.getElementById("timeoutModal");
+
+    let countdown = setInterval(() => {
+      let minutes = Math.floor(time / 60);
+      let seconds = time % 60;
+      timerEl.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+      if (time <= 0) {
+        clearInterval(countdown);
+        modal.style.display = "flex";
+      }
+      time--;
+    }, 1000);
+
+    // Random Winner every 10s
+    let winnerEl = document.getElementById("winner");
+    let winners = ["A", "B", "C"];
     setInterval(() => {
-        let minutes = Math.floor(time / 60);
-        let seconds = time % 60;
-        timerEl.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
-        if(time > 0) time--;
-    },1000);
-}
-
-// GAME LOGIC
-const winLetters = ['A','B','C'];
-
-function flipCards(playerId) {
-    const cards = document.querySelectorAll(`#${playerId} .card`);
-    cards.forEach(card => {
-        card.classList.remove('flipped');
-        setTimeout(() => card.classList.add('flipped'), Math.random() * 600);
-    });
-}
-
-function showWinner() {
-    const playerBox = document.getElementById('player-A');
-    const randomWin = winLetters[Math.floor(Math.random()*winLetters.length)];
-    playerBox.classList.add('win');
-    playerBox.querySelector('.status').textContent = `WINNER: ${randomWin}`;
-    flipCards('player-A');
-    setTimeout(() => {
-        playerBox.classList.remove('win');
-        playerBox.querySelector('.status').textContent = '';
-    }, 5000);
-    setTimeout(showWinner, 10000); // next win after 10 seconds
-}
-
-function startGame() {
-    showWinner();
-}
+      let random = winners[Math.floor(Math.random() * winners.length)];
+      winnerEl.textContent = "Winner: " + random;
+    }, 10000);
+  }
 </script>
 
 </body>
