@@ -1,249 +1,402 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teen Patti Predator</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Teen Patti Predator — Secure Demo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-    body {
-      background: url('https://iili.io/K0ZwJJR.md.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-      font-family: 'Share Tech Mono', monospace;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
+:root{
+  --accent: #ff2d2d;
+  --muted: #98a8b9;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Share Tech Mono',monospace;
+  background: url('https://iili.io/K0ZwJJR.md.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color:#fff;
+  -webkit-font-smoothing:antialiased;
+  text-align:center;
+}
+.wrap{max-width:980px;margin:28px auto;padding:20px}
+.header{display:flex;align-items:center;gap:14px;justify-content:center}
+.brand{width:80px;height:80px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+h1{margin:0;font-size:22px;letter-spacing:2px;color:#ff3b3b;text-shadow:0 0 12px #ff3b3b}
 
-    header {
-      padding: 15px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #ff0000;
-      text-shadow: 0 0 15px red, 0 0 25px #ff3300;
-    }
+/* main card */
+.card{
+  background:rgba(0,0,0,0.72);
+  padding:18px;border-radius:12px;margin:18px auto;max-width:840px;
+  box-shadow:0 10px 40px rgba(0,0,0,0.7);
+}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.input{width:260px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;text-align:center}
+.btn{padding:10px 18px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer;font-weight:700;box-shadow:0 8px 24px rgba(255,45,45,0.12)}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
 
-    .logo {
-      width: 100px;
-      margin: 10px auto;
-      display: block;
-      border-radius: 50%;
-      box-shadow: 0 0 20px #ff0000;
-    }
+/* accounts grid */
+.accounts{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;padding:6px}
+.card-account{
+  width:100%;height:320px;perspective:1200px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+}
+.card-inner{
+  width:100%;height:100%;border-radius:12px;position:relative;transition:transform .9s;transform-style:preserve-3d;
+  box-shadow:0 10px 30px rgba(0,0,0,0.6);
+}
+.card-account.flipped .card-inner{transform:rotateY(180deg)}
+.face{
+  position:absolute;inset:0;border-radius:12px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;
+  border:1px solid rgba(255,255,255,0.03);
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+.face.front img{width:84px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.6);margin-bottom:8px}
+.face.front h3{color:#0ff;margin:6px 0;font-size:15px}
+.face.front .details{color:var(--muted);font-size:13px}
+.face.back{transform:rotateY(180deg);background:#0b0b0b;color:#fff;font-weight:800;font-size:28px;text-shadow:0 0 12px rgba(255,200,0,0.8)}
 
-    .input-box {
-      margin: 20px auto;
-      padding: 20px;
-      background: rgba(0,0,0,0.7);
-      border-radius: 12px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 0 15px #222;
-    }
+/* loading badge */
+.badge{
+  margin-top:10px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:700;color:#ffd27a;
+}
 
-    .input-box input {
-      width: 90%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      font-size: 14px;
-      text-align: center;
-    }
+/* timer */
+.timer{display:inline-block;margin-left:8px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:800;color:#ffea9a}
 
-    .btn {
-      background: red;
-      padding: 10px 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      color: #fff;
-      font-weight: bold;
-      margin-top: 10px;
-      box-shadow: 0 0 10px red, 0 0 20px orange;
-    }
+/* overlays */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;color:#fff;
+}
+.modal{width:92%;max-width:420px;background:rgba(8,10,12,0.95);padding:22px;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.7);text-align:center}
+.modal img{width:96px;height:96px;border-radius:12px;margin-bottom:8px}
+.modal .title{font-size:20px;color:#ffd36b;margin-bottom:8px}
+.modal .muted{color:var(--muted);font-size:13px;margin-bottom:8px}
+.modal .input{width:86%}
 
-    .account {
-      margin: 20px auto;
-      padding: 15px;
-      border-radius: 12px;
-      width: 90%;
-      background: rgba(0, 0, 0, 0.85);
-      box-shadow: 0 0 15px #111;
-      transform: perspective(1000px) rotateX(5deg);
-      transition: transform 0.3s;
-    }
-    .account:hover {
-      transform: perspective(1000px) rotateX(0deg) scale(1.02);
-    }
-
-    .account h3 {
-      color: #0ff;
-      margin-bottom: 10px;
-    }
-
-    .details {
-      font-size: 14px;
-      margin-bottom: 10px;
-      color: #aaa;
-    }
-
-    .result {
-      font-size: 22px;
-      font-weight: bold;
-      padding: 8px;
-      border-radius: 8px;
-      display: inline-block;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-
-    /* LOCK SCREEN */
-    #lockScreen {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.95);
-      color: white;
-      z-index: 9999;
-      text-align: center;
-      padding-top: 100px;
-    }
-
-    #lockScreen img {
-      width: 120px;
-      border-radius: 50%;
-      margin-bottom: 20px;
-    }
-
-    #lockScreen input {
-      padding: 10px;
-      width: 250px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      margin: 10px;
-      text-align: center;
-    }
-
-    #lockScreen button {
-      padding: 10px 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: red;
-      color: #fff;
-      font-weight: bold;
-      box-shadow: 0 0 10px red, 0 0 20px orange;
-    }
-  </style>
+/* TIME OVER overlay style */
+#timeoverText{font-size:36px;color:gold;margin-top:12px;text-shadow:0 0 20px gold,0 0 40px red}
+.hidden{display:none}
+@media(max-width:720px){.card{padding:14px}.face.back{font-size:22px}}
+</style>
 </head>
 <body>
-  <header>
-    <img src="https://iili.io/K0ZwJJR.md.jpg" alt="Logo" class="logo">
-    🔥 TEEN PATTI PREDATOR 🔥
-  </header>
-
-  <!-- Input Box -->
-  <div class="input-box" id="inputBox">
-    <input type="text" id="userId" placeholder="Enter ID">
-    <input type="email" id="userEmail" placeholder="Enter Gmail">
-    <input type="text" id="userDevice" placeholder="Enter Device">
-    <button class="btn" onclick="connectAccount()">Add to Connected</button>
+<div class="wrap">
+  <div class="header">
+    <img class="brand" src="https://iili.io/K0ZwJJR.md.jpg" alt="logo">
+    <h1>TEEN PATTI PREDATOR</h1>
   </div>
 
-  <!-- Accounts Container -->
-  <div id="accountsContainer"></div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:13px;color:#b9d5ff">Connected Manager</div>
+        <div style="font-weight:800;font-size:18px">Add Account & Watch Wins</div>
+      </div>
+      <div style="text-align:right">
+        <div class="small">Auto-lock in</div>
+        <span id="timerBadge" class="timer">05:00</span>
+      </div>
+    </div>
 
-  <!-- Lock Screen -->
-  <div id="lockScreen">
-    <img src="https://iili.io/K0ZwJJR.md.jpg">
-    <h2>🔒 Session Locked</h2>
-    <input type="password" id="unlockPass" placeholder="Enter Password">
-    <button onclick="unlock()">Unlock</button>
-    <p id="msg"></p>
+    <div class="controls" style="margin-top:12px">
+      <input id="inpId" class="input" type="text" placeholder="ID (e.g. 278001)">
+      <input id="inpGmail" class="input" type="email" placeholder="Gmail (e.g. name@gmail.com)">
+      <input id="inpDevice" class="input" type="text" placeholder="Device (e.g. Galaxy A51)">
+    </div>
+
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:12px">
+      <button id="btnAdd" class="btn">Add to Connected</button>
+      <button id="btnLockNow" class="btn ghost">Lock Now</button>
+    </div>
+
+    <div id="statusMsg" class="badge" style="margin-top:14px;min-height:22px"></div>
   </div>
 
-  <script>
-    let accountCount = 0;
-    const values = ["A", "B", "C"];
-    const colors = ["gold", "deepskyblue", "red"];
+  <div class="accounts" id="accounts"></div>
+</div>
 
-    function randomResult() {
-      return {
-        value: values[Math.floor(Math.random() * values.length)],
-        color: colors[Math.floor(Math.random() * colors.length)]
-      };
+<!-- Entry password modal (shown on page load) -->
+<div id="entryOverlay" class="overlay">
+  <div class="modal">
+    <img src="https://iili.io/K0ZwJJR.md.jpg" alt="logo">
+    <div class="title">🔒 Enter Site Password</div>
+    <div class="muted">Password to enter</div>
+    <input id="entryInput" class="input" type="password" placeholder="Password">
+    <div style="margin-top:12px">
+      <button id="btnEntry" class="btn">Enter</button>
+    </div>
+    <div id="entryMsg" class="muted" style="margin-top:10px"></div>
+  </div>
+</div>
+
+<!-- Auto-lock overlay (TIME OVER) -->
+<div id="lockOverlay" class="overlay hidden">
+  <div class="modal">
+    <img src="https://iili.io/K0ZwJJR.md.jpg" alt="logo">
+    <div class="title">🔒 Session Locked</div>
+    <div class="muted">Enter password to unlock</div>
+    <input id="unlockInput" class="input" type="password" placeholder="Password">
+    <div style="margin-top:12px">
+      <button id="btnUnlock" class="btn">Unlock</button>
+      <button id="btnClear" class="btn ghost" style="margin-left:8px">Clear</button>
+    </div>
+    <div id="unlockMsg" class="muted" style="margin-top:12px"></div>
+    <div id="timeoverText">TIME OVER</div>
+  </div>
+</div>
+
+<script>
+/* Passwords */
+const ENTRY_PWD = "JisanShadow444";
+const UNLOCK_PWD = "ShadowJisan999";
+
+/* Elements */
+const entryOverlay = document.getElementById('entryOverlay');
+const entryInput = document.getElementById('entryInput');
+const btnEntry = document.getElementById('btnEntry');
+const entryMsg = document.getElementById('entryMsg');
+
+const lockOverlay = document.getElementById('lockOverlay');
+const unlockInput = document.getElementById('unlockInput');
+const btnUnlock = document.getElementById('btnUnlock');
+const btnClear = document.getElementById('btnClear');
+const unlockMsg = document.getElementById('unlockMsg');
+
+const accountsEl = document.getElementById('accounts');
+const statusMsg = document.getElementById('statusMsg');
+const timerBadge = document.getElementById('timerBadge');
+const btnAdd = document.getElementById('btnAdd');
+const btnLockNow = document.getElementById('btnLockNow');
+
+/* Timer */
+const AUTO_LOCK_MS = 5 * 60 * 1000;
+let countdownEndsAt = 0;
+let countdownInterval = null;
+
+/* Values for wins */
+const WINS = ["A","B","C"];
+const COLORS = { A: 'gold', B: 'deepskyblue', C: 'red' };
+
+/* Storage of accounts (in-memory + sessionStorage) */
+const STORAGE_KEY = 'tp_connected_v3';
+function loadAccounts(){ try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY)||'[]'); } catch(e){ return []; } }
+function saveAccounts(arr){ sessionStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
+
+/* UTIL */
+function fmtTime(ms){ if(ms < 0) ms = 0; const s = Math.floor(ms/1000); const m = Math.floor(s/60); const sec = s%60; return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`; }
+
+function showEntryMessage(txt, fail=false){ entryMsg.textContent = txt; entryMsg.style.color = fail ? '#ff8b8b' : '#a8ffb0'; }
+function showUnlockMessage(txt, fail=false){ unlockMsg.textContent = txt; unlockMsg.style.color = fail ? '#ff8b8b' : '#a8ffb0'; }
+
+/* INIT: ensure entry overlay visible on load */
+entryOverlay.style.display = 'flex';
+lockOverlay.classList.add('hidden'); // hide lock overlay initially
+
+/* ENTRY HANDLERS */
+function tryEnter(){
+  const v = (entryInput.value||'').trim();
+  if(v === ENTRY_PWD){
+    entryOverlay.style.display = 'none';
+    entryInput.value = '';
+    entryMsg.textContent = '';
+    startCountdown();
+    // render persisted accounts
+    renderAccounts();
+    showStatus('Unlocked — you can add accounts', false);
+  } else {
+    showEntryMessage('❌ Wrong password', true);
+  }
+}
+btnEntry.addEventListener('click', tryEnter);
+entryInput.addEventListener('keydown', e => { if(e.key === 'Enter') tryEnter(); });
+
+/* UNLOCK HANDLERS (after auto-lock) */
+btnUnlock.addEventListener('click', () => {
+  const v = (unlockInput.value||'').trim();
+  if(v === UNLOCK_PWD){
+    lockOverlay.classList.add('hidden');
+    unlockInput.value = '';
+    showUnlockMessage('✅ Unlocked', false);
+    enableControls(true);
+    startCountdown(); // restart 5 minute window
+  } else {
+    showUnlockMessage('❌ Wrong password', true);
+  }
+});
+btnClear.addEventListener('click', () => { unlockInput.value = ''; unlockMsg.textContent = ''; });
+
+/* Timer functions */
+function startCountdown(){
+  countdownEndsAt = Date.now() + AUTO_LOCK_MS;
+  if(countdownInterval) clearInterval(countdownInterval);
+  updateTimer();
+  countdownInterval = setInterval(updateTimer, 1000);
+}
+function updateTimer(){
+  const left = countdownEndsAt - Date.now();
+  timerBadge.textContent = fmtTime(left);
+  if(left <= 0){
+    clearInterval(countdownInterval);
+    triggerAutoLock();
+  }
+}
+function triggerAutoLock(){
+  lockOverlay.classList.remove('hidden');
+  enableControls(false);
+  showUnlockMessage('', false);
+  showStatus('Auto-locked', true);
+}
+
+/* Enable/disable controls */
+function enableControls(enabled){
+  [ 'inpId','inpGmail','inpDevice','btnAdd','btnLockNow' ].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.disabled = !enabled;
+    el.style.opacity = enabled ? 1 : 0.5;
+  });
+}
+
+/* Status */
+function showStatus(txt, warn=false){
+  statusMsg.textContent = txt;
+  statusMsg.style.color = warn ? '#ffd27a' : '#a8ffb0';
+}
+
+/* Accounts rendering & logic */
+function createCard(account, idx){
+  const wrapper = document.createElement('div');
+  wrapper.className = 'card-account';
+  wrapper.dataset.index = idx;
+
+  const inner = document.createElement('div');
+  inner.className = 'card-inner';
+
+  const front = document.createElement('div');
+  front.className = 'face front';
+  front.innerHTML = `<img src="https://iili.io/K0ZwJJR.md.jpg" alt="logo">
+    <h3>ID: ${escapeHtml(account.id)}</h3>
+    <div class="details">${escapeHtml(account.gmail)}</div>
+    <div class="details">${escapeHtml(account.device)}</div>
+    <div class="badge" id="badge-${idx}">Connected</div>`;
+
+  const back = document.createElement('div');
+  back.className = 'face back';
+  back.id = `back-${idx}`;
+  back.textContent = 'WIN: ...';
+
+  inner.appendChild(front);
+  inner.appendChild(back);
+  wrapper.appendChild(inner);
+
+  // flip on click (if not locked)
+  wrapper.addEventListener('click', () => {
+    if(lockOverlay && !lockOverlay.classList.contains('hidden')) return;
+    wrapper.classList.toggle('flipped');
+    // update back value when flipped
+    const val = randomWin();
+    const b = document.getElementById(`back-${idx}`);
+    if(b){
+      b.textContent = 'WIN: ' + val;
+      b.style.color = COLORS[val];
+      b.style.textShadow = `0 0 12px ${COLORS[val]}, 0 0 24px ${COLORS[val]}`;
     }
+  });
 
-    function connectAccount() {
-      const id = document.getElementById("userId").value;
-      const mail = document.getElementById("userEmail").value;
-      const dev = document.getElementById("userDevice").value;
+  return wrapper;
+}
 
-      if (!id || !mail || !dev) {
-        alert("Please fill all fields!");
-        return;
-      }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])); }
 
-      accountCount++;
-      const container = document.getElementById("accountsContainer");
+function renderAccounts(){
+  accountsEl.innerHTML = '';
+  const arr = loadAccounts();
+  if(arr.length === 0){
+    accountsEl.innerHTML = `<div style="color:rgba(255,255,255,0.6);padding:18px">No connected accounts</div>`;
+    return;
+  }
+  arr.forEach((acc, i) => {
+    const card = createCard(acc, i);
+    accountsEl.appendChild(card);
+  });
+}
 
-      const div = document.createElement("div");
-      div.className = "account";
-      div.innerHTML = `
-        <img src="https://iili.io/K0ZwJJR.md.jpg" class="logo">
-        <h3>ID: ${id} | Gmail: ${mail}</h3>
-        <p class="details">Device: ${dev}</p>
-        <div class="result" id="result${accountCount}">Connecting...</div>
-      `;
-      container.appendChild(div);
+/* Add account flow with "Connecting..." */
+btnAdd.addEventListener('click', () => {
+  if(lockOverlay && !lockOverlay.classList.contains('hidden')) return;
+  const id = document.getElementById('inpId').value.trim();
+  const gmail = document.getElementById('inpGmail').value.trim();
+  const device = document.getElementById('inpDevice').value.trim();
+  if(!id || !gmail || !device){
+    showStatus('❌ Fill all fields', true);
+    return;
+  }
 
-      // Simulate loading then show result
-      setTimeout(() => {
-        updateResult("result" + accountCount);
-      }, 2000);
+  // show temporary connecting card
+  const tempIdx = Date.now();
+  const tempCard = document.createElement('div');
+  tempCard.className = 'card-account';
+  tempCard.innerHTML = `<div class="card-inner"><div class="face front" style="justify-content:center"><img src="https://iili.io/K0ZwJJR.md.jpg" alt="logo" style="width:80px"><div class="badge">Connecting...</div></div></div>`;
+  accountsEl.prepend(tempCard);
+  showStatus('Connecting...', false);
+
+  // simulate connection delay then add to storage & re-render
+  setTimeout(() => {
+    tempCard.remove();
+    const arr = loadAccounts();
+    arr.unshift({ id, gmail, device });
+    saveAccounts(arr);
+    renderAccounts();
+    showStatus('✅ Connected', false);
+    document.getElementById('inpId').value = '';
+    document.getElementById('inpGmail').value = '';
+    document.getElementById('inpDevice').value = '';
+  }, 1200);
+});
+
+/* Manual Lock Now */
+btnLockNow.addEventListener('click', () => {
+  triggerAutoLock();
+});
+
+/* random wins updater every 10s (updates back face values silently) */
+function randomWin(){ return WINS[Math.floor(Math.random()*WINS.length)]; }
+function updateAllWins(){
+  const arr = loadAccounts();
+  arr.forEach((a, idx) => {
+    const val = randomWin();
+    const back = document.getElementById(`back-${idx}`);
+    if(back){
+      back.textContent = 'WIN: ' + val;
+      back.style.color = COLORS[val];
+      back.style.textShadow = `0 0 12px ${COLORS[val]}, 0 0 24px ${COLORS[val]}`;
     }
+  });
+}
+setInterval(updateAllWins, 10000);
 
-    function updateResult(elementId) {
-      const res = randomResult();
-      const el = document.getElementById(elementId);
-      if (el) {
-        el.innerHTML = "WIN: " + res.value;
-        el.style.color = res.color;
-        el.style.textShadow = `0 0 10px ${res.color}, 0 0 20px ${res.color}`;
-      }
-    }
+/* persistence helpers */
+function loadAccounts(){ try{ return JSON.parse(sessionStorage.getItem(STORAGE_KEY)||'[]'); }catch(e){ return []; } }
+function saveAccounts(arr){ sessionStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); }
 
-    // Update all results every 7s
-    setInterval(() => {
-      for (let i = 1; i <= accountCount; i++) {
-        updateResult("result" + i);
-      }
-    }, 7000);
+// On first load, if entry overlay visible, ensure controls disabled
+enableControls(false);
 
-    // Lock after 5 minutes
-    setTimeout(() => {
-      document.getElementById("lockScreen").style.display = "block";
-    }, 5 * 60 * 1000);
+// When user successfully enters, enable controls
+// The tryEnter handler above calls startCountdown() and renderAccounts() and enable controls
 
-    function unlock() {
-      const pass = document.getElementById("unlockPass").value;
-      if (pass === "ShadowJisan999") {
-        document.getElementById("lockScreen").style.display = "none";
-      } else {
-        document.getElementById("msg").innerText = "❌ Wrong Password!";
-      }
-    }
-  </script>
+// Focus behaviors
+entryInput.focus();
+entryInput.addEventListener('input', ()=> entryMsg.textContent='');
+unlockInput.addEventListener('input', ()=> unlockMsg.textContent='');
+document.getElementById('inpId').addEventListener('keydown', e=>{ if(e.key==='Enter') btnAdd.click(); });
+
+// ensure stored accounts persist across reload in same tab (sessionStorage used)
+renderAccounts();
+
+</script>
 </body>
 </html>
