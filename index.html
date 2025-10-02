@@ -1,309 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PENCHIL App Teen Patti Prediction</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
-
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: url("https://iili.io/KEWWNyu.md.jpg") no-repeat center center/cover;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  position: relative;
-}
-
-body::before {
-  content:"";
-  position:absolute;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(0,0,0,0.6);
-  z-index:0;
-}
-
-.login-container, .main-content {
-  position: relative;
-  z-index:1;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  padding: 30px;
-  text-align: center;
-  color: #fff;
-  box-shadow: 0 0 30px cyan;
-  max-width: 480px;
-  width: 100%;
-  animation: fadeIn 1s ease;
-}
-
-.login-container img {
-  width: 120px;
-  border-radius: 50%;
-  border: 3px solid cyan;
-  margin-bottom: 15px;
-  animation: glowPulse 2s infinite alternate;
-}
-
-h2 {
-  background: linear-gradient(90deg, cyan, magenta, yellow);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-}
-
-input[type="password"] {
-  padding: 12px;
-  width: 85%;
-  margin: 12px 0;
-  border: 2px solid cyan;
-  border-radius: 10px;
-  background: rgba(0,0,0,0.8);
-  color: white;
-  text-align: center;
-  font-size: 16px;
-  outline: none;
-  transition: 0.3s;
-}
-input[type="password"]:focus {
-  border-color: lime;
-  box-shadow: 0 0 10px lime;
-}
-
-button {
-  padding: 12px 25px;
-  background: linear-gradient(45deg, cyan, magenta);
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  color: black;
-  transition: 0.3s;
-}
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px magenta;
-}
-
-.card-container {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-
-.card {
-  width: 90px;
-  height: 130px;
-  perspective: 1000px;
-  margin: 10px;
-}
-
-.card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-  border-radius: 15px;
-  cursor: pointer;
-  animation: neonGlow 2s infinite alternate;
-}
-
-.card-front, .card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  backface-visibility: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 36px;
-  font-weight: bold;
-  box-shadow: 0 0 15px cyan, 0 0 25px magenta inset;
-  border: 2px solid cyan;
-}
-
-.card-front {
-  background: rgba(0,0,0,0.8);
-  color: cyan;
-}
-
-.card-back {
-  background: rgba(255,255,255,0.1);
-  color: magenta;
-  transform: rotateY(180deg);
-}
-
-.timer {
-  font-size: 26px;
-  margin: 15px 0;
-  font-weight: bold;
-  color: #0ff;
-  text-shadow: 0 0 20px cyan, 0 0 30px lime;
-  font-family: "Courier New", monospace;
-}
-
-.winner {
-  font-size: 28px;
-  margin: 15px 0;
-  font-weight: bold;
-  color: red;
-  text-shadow: 0 0 15px lime, 0 0 30px red, 0 0 50px magenta;
-  animation: winnerGlow 1.5s infinite alternate;
-}
-
-.center-text {
-  font-size: 22px;
-  color: cyan;
-  text-shadow: 0 0 20px cyan, 0 0 40px magenta;
-  margin: 10px 0;
-  font-weight: bold;
-}
-
-.developer {
-  margin-top: 15px;
-  font-size: 14px;
-  color: cyan;
-  text-shadow: 0 0 15px cyan;
-}
-
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.9);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  animation: fadeIn 1s ease;
-}
-.modal-content {
-  background: rgba(255,255,255,0.1);
-  padding: 25px;
-  border-radius: 20px;
-  text-align: center;
-  color: white;
-  border: 2px solid red;
-  box-shadow: 0 0 25px red;
-  animation: popUp 0.8s ease;
-}
-.modal-content h2 {
-  color: red;
-  text-shadow: 0 0 15px red;
-}
-
-/* Animations */
-@keyframes fadeIn { from { opacity:0; transform:scale(0.95);} to {opacity:1; transform:scale(1);} }
-@keyframes popUp { from{transform:scale(0.5);opacity:0;} to{ transform:scale(1); opacity:1;} }
-@keyframes glowPulse { from { box-shadow:0 0 10px cyan;} to { box-shadow:0 0 30px magenta; } }
-@keyframes neonGlow { from { box-shadow:0 0 10px cyan,0 0 20px magenta inset;} to { box-shadow:0 0 20px lime,0 0 30px magenta inset;} }
-@keyframes winnerGlow { from{ text-shadow:0 0 15px lime,0 0 25px cyan,0 0 35px magenta;} to{ text-shadow:0 0 30px lime,0 0 40px cyan,0 0 50px magenta;} }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Teen Patti Predator</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    :root{
+      --bg:#071425; --card:#0f2130; --accent:#ff2d2d; --muted:#98a8b9;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Share Tech Mono', monospace;
+      background: url('https://iili.io/K0ZwJJR.md.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      text-align:center;
+    }
+    .wrap{max-width:920px;margin:32px auto;padding:16px}
+    header{display:flex;align-items:center;gap:14px;justify-content:center}
+    .brand{width:80px;height:80px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+    h1{margin:0;font-size:22px;letter-spacing:2px;color:#ff3b3b;text-shadow:0 0 12px #ff3b3b}
+    .card{background:rgba(0,0,0,0.7);padding:18px;border-radius:12px;margin:18px auto;max-width:520px;box-shadow:0 8px 30px rgba(0,0,0,0.7)}
+    input, button {font-family:inherit}
+    .center{display:flex;flex-direction:column;align-items:center;gap:8px}
+    input[type="text"], input[type="email"], input[type="password"]{
+      width:92%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;text-align:center
+    }
+    button{
+      padding:10px 18px;border-radius:8px;border:0;background:var(--accent);color:#fff;cursor:pointer;font-weight:700;box-shadow:0 8px 24px rgba(255,45,45,0.12)
+    }
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+    .list{margin-top:12px;text-align:left;color:#e6eef6;padding:6px;border-radius:8px;background:rgba(255,255,255,0.02)}
+    .row{display:flex;gap:8px;justify-content:center;align-items:center}
+    .status{margin-top:8px;color:#ffd27a;font-weight:700}
+    .timer-badge{margin-top:10px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:700;color:#ffea9a}
+    /* lock overlay */
+    #overlayLock{position:fixed;inset:0;background:rgba(0,0,0,0.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999}
+    .lockbox{width:92%;max-width:420px;background:rgba(10,12,15,0.85);padding:20px;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.7);text-align:center}
+    .lock-title{font-size:20px;color:#ffd36b;margin-top:10px;text-shadow:0 0 12px #ffd36b}
+    .lock-sub{color:#bfcbd6;margin-top:6px;font-size:13px}
+    .small-muted{font-size:13px;color:#98a8b9;margin-top:6px}
+    @media(max-width:600px){ .brand{width:60px;height:60px} .card{margin:12px} }
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <header>
+      <img class="brand" src="https://iili.io/K0ZwJJR.md.jpg" alt="logo">
+      <h1>TEEN PATTI PREDATOR</h1>
+    </header>
 
-<!-- Login Page -->
-<div class="login-container" id="loginPage">
-  <img src="https://iili.io/KEWlGUb.md.jpg" alt="Logo">
-  <h2>Enter Password</h2>
-  <input type="password" id="passwordInput" placeholder="Password">
-  <br>
-  <button onclick="checkPassword()">Login</button>
-</div>
+    <div class="card center" id="mainCard" style="display:none;">
+      <div class="row" style="width:100%;justify-content:space-between;padding:0 8px;">
+        <div style="text-align:left">
+          <div style="font-size:13px;color:#b9d5ff">Unlocked</div>
+          <div style="font-weight:800;font-size:18px">Add Account</div>
+        </div>
+        <div style="text-align:right">
+          <div class="small-muted">Auto-lock in</div>
+          <div id="countdown" class="timer-badge">05:00</div>
+        </div>
+      </div>
 
-<!-- Main Page -->
-<div class="main-content" id="mainPage" style="display:none;">
-  <h2>PENCHIL App Teen Patti Prediction</h2>
-  <p class="center-text">CHT CENTRE</p>
-  <div class="timer" id="timer">30:00</div>
-  <div class="winner" id="winner">Winner: -</div>
-  
-  <div class="card-container">
-    <div class="card"><div class="card-inner"><div class="card-front">🂡</div><div class="card-back">🂱</div></div></div>
-    <div class="card"><div class="card-inner"><div class="card-front">🂢</div><div class="card-back">🂲</div></div></div>
-    <div class="card"><div class="card-inner"><div class="card-front">🂣</div><div class="card-back">🂳</div></div></div>
+      <div style="height:8px"></div>
+
+      <input type="text" id="accId" placeholder="ID (e.g. 278001)">
+      <input type="email" id="accGmail" placeholder="Gmail (e.g. name@gmail.com)">
+      <input type="text" id="accDevice" placeholder="Device (e.g. Galaxy A51)">
+      <div class="row" style="margin-top:8px;width:100%;">
+        <button id="btnAdd">Add</button>
+        <button id="btnLockNow" class="ghost" style="margin-left:6px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.06)">Lock Now</button>
+      </div>
+
+      <div class="list" id="accountList" aria-live="polite" style="max-height:260px;overflow:auto;margin-top:12px"></div>
+      <div class="status" id="statusMsg"></div>
+    </div>
+
+    <!-- Lock overlay (initially visible) -->
+    <div id="overlayLock">
+      <div class="lockbox">
+        <img class="brand" src="https://iili.io/K0ZwJJR.md.jpg" alt="logo">
+        <div class="lock-title" id="lockTitle">🔒 Locked</div>
+        <div class="lock-sub" id="lockSub">Enter password to unlock</div>
+
+        <div style="height:12px"></div>
+        <input type="password" id="unlockPwd" placeholder="Password" style="width:86%;margin:0 auto;">
+        <div class="row" style="margin-top:12px">
+          <button id="btnUnlock">Unlock</button>
+          <button id="btnClear" class="ghost" style="margin-left:8px;background:transparent;border:1px solid rgba(255,255,255,0.06)">Clear</button>
+        </div>
+        <div class="small-muted" id="lockNote" style="margin-top:10px"></div>
+      </div>
+    </div>
   </div>
-  
-  <div class="developer">Developer: Jisan Ahmed</div>
-</div>
-
-<!-- Modal -->
-<div class="modal" id="timeUpModal">
-  <div class="modal-content">
-    <h2>⏰ আপনার সময় শেষ!</h2>
-    <p>অনুমতি নিন</p>
-    <button onclick="closeModal()">OK</button>
-  </div>
-</div>
 
 <script>
-const correctPassword = "SHADOWJISAN963";
-let timerInterval, winnerInterval;
+/*
+Behavior:
+- Initial unlock password: "JisanShadow444"
+- After user unlocks, a 5-minute countdown starts.
+- When time reaches 0 -> auto-lock triggers and overlay appears again.
+  - For auto-lock re-unlock password use: "ShadowJisan999"
+- Manual Lock Now uses the auto-lock password to re-lock (so Lock Now triggers overlay and requires ShadowJisan999 to unlock later).
+- Added accounts are kept in sessionStorage for this demo (cleared on tab close). You can change to localStorage if you want persistence.
+*/
 
-function checkPassword() {
-  const input = document.getElementById("passwordInput").value;
-  if(input === correctPassword){
-    document.getElementById("loginPage").style.display="none";
-    document.getElementById("mainPage").style.display="block";
-    startTimer(30*60);
-    startWinner();
-  } else { alert("❌ Wrong Password!"); }
+const INITIAL_PWD = "JisanShadow444";
+const AUTO_LOCK_PWD = "ShadowJisan999";
+const AUTO_LOCK_MS = 5 * 60 * 1000;
+
+const overlayLock = document.getElementById('overlayLock');
+const btnUnlock = document.getElementById('btnUnlock');
+const btnClear = document.getElementById('btnClear');
+const unlockPwd = document.getElementById('unlockPwd');
+const lockTitle = document.getElementById('lockTitle');
+const lockSub = document.getElementById('lockSub');
+const lockNote = document.getElementById('lockNote');
+
+const mainCard = document.getElementById('mainCard');
+const countdownEl = document.getElementById('countdown');
+const btnAdd = document.getElementById('btnAdd');
+const btnLockNow = document.getElementById('btnLockNow');
+const accountList = document.getElementById('accountList');
+const statusMsg = document.getElementById('statusMsg');
+
+let countdownTimer = null;
+let countdownEndsAt = 0;
+let isAutoLocked = false; // when auto-locked, unlock password becomes AUTO_LOCK_PWD
+
+// use sessionStorage so data clears when tab/browser closed; change to localStorage if persistence needed
+const STORAGE_KEY = 'tp_accounts_demo_v1';
+
+// Utility
+function fmtTimeLeft(ms){
+  if (ms < 0) ms = 0;
+  const s = Math.floor(ms / 1000);
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
 }
 
-function startTimer(duration){
-  let timer = duration, minutes, seconds;
-  timerInterval = setInterval(()=>{
-    minutes = parseInt(timer/60,10);
-    seconds = parseInt(timer%60,10);
-    document.getElementById("timer").textContent = `${minutes}:${seconds<10?"0"+seconds:seconds}`;
-    if(--timer<0){
-      clearInterval(timerInterval);
-      clearInterval(winnerInterval);
-      document.getElementById("timeUpModal").style.display="flex";
-    }
-  },1000);
+function loadAccounts(){
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY) || '[]';
+    return JSON.parse(raw);
+  } catch(e){ return []; }
 }
-
-function startWinner(){
-  const choices=["A","B","C"];
-  const cardInners=document.querySelectorAll(".card-inner");
-  winnerInterval=setInterval(()=>{
-    const randomChoice=choices[Math.floor(Math.random()*choices.length)];
-    document.getElementById("winner").textContent = "Winner: "+randomChoice;
-
-    // Flip cards randomly
-    cardInners.forEach(card=>{
-      card.classList.remove("flipped");
-      setTimeout(()=>{ card.classList.add("flipped"); }, Math.random()*500);
+function saveAccounts(list){
+  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+}
+function renderAccounts(){
+  const list = loadAccounts();
+  if (list.length === 0){
+    accountList.innerHTML = '<div style="opacity:0.6;padding:8px">No accounts added yet</div>';
+    return;
+  }
+  accountList.innerHTML = '';
+  list.forEach((it, idx) => {
+    const p = document.createElement('div');
+    p.style.padding = '8px';
+    p.style.borderBottom = '1px solid rgba(255,255,255,0.03)';
+    p.innerHTML = `<div style="font-weight:700;color:#ffd27a">ID: ${escapeHtml(it.id)}</div>
+                   <div style="color:#bfcbd6;font-size:13px">Gmail: ${escapeHtml(it.gmail)} | Device: ${escapeHtml(it.device)}</div>
+                   <div style="margin-top:6px"><button data-idx="${idx}" class="removeBtn" style="padding:6px 10px;border-radius:8px;border:0;background:#ff4757;color:#fff;cursor:pointer">Remove</button></div>`;
+    accountList.appendChild(p);
+  });
+  // attach remove handlers
+  Array.from(document.getElementsByClassName('removeBtn')).forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const idx = Number(btn.getAttribute('data-idx'));
+      const arr = loadAccounts();
+      arr.splice(idx,1);
+      saveAccounts(arr);
+      renderAccounts();
     });
-
-  },7000);
+  });
 }
 
-function closeModal(){
-  document.getElementById("timeUpModal").style.display="none";
+function escapeHtml(s){
+  return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 }
+
+// Lock/Unlock logic
+function showLockOverlay(auto=false){
+  overlayLock.style.display = 'flex';
+  unlockPwd.value = '';
+  isAutoLocked = !!auto;
+  if (auto){
+    lockTitle.textContent = '🔒 Auto-Locked';
+    lockSub.textContent = 'Enter auto-lock password to unlock';
+    lockNote.textContent = '';
+  } else {
+    lockTitle.textContent = '🔒 Locked';
+    lockSub.textContent = 'Enter password to unlock';
+    lockNote.textContent = '';
+  }
+  mainCard.style.display = 'none';
+  stopCountdown();
+}
+
+function hideLockOverlay(){
+  overlayLock.style.display = 'none';
+  mainCard.style.display = 'block';
+}
+
+function startCountdown(){
+  countdownEndsAt = Date.now() + AUTO_LOCK_MS;
+  updateCountdownUI();
+  if (countdownTimer) clearInterval(countdownTimer);
+  countdownTimer = setInterval(() => {
+    updateCountdownUI();
+  }, 1000);
+}
+
+function stopCountdown(){
+  if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+  countdownEl.textContent = fmtTimeLeft(0);
+}
+
+function updateCountdownUI(){
+  const left = countdownEndsAt - Date.now();
+  if (left <= 0){
+    // auto-lock now
+    stopCountdown();
+    triggerAutoLock();
+    return;
+  }
+  countdownEl.textContent = fmtTimeLeft(left);
+}
+
+function triggerAutoLock(){
+  // show overlay and set auto-locked flag
+  showLockOverlay(true);
+}
+
+function manualLockNow(){
+  // When user presses Lock Now, we trigger same behaviour as auto-lock
+  showLockOverlay(true);
+}
+
+// Initialization: page loads locked state initially
+function init(){
+  // Initially locked (use initial password)
+  showLockOverlay(false);
+  renderAccounts();
+}
+
+// Event handlers
+btnUnlock.addEventListener('click', () => {
+  const pwd = unlockPwd.value || '';
+  if (!isAutoLocked){
+    // initial unlock uses INITIAL_PWD
+    if (pwd === INITIAL_PWD){
+      hideLockOverlay();
+      statusMsg.textContent = 'Unlocked';
+      statusMsg.style.color = '#a8ffb0';
+      startCountdown();
+    } else {
+      lockNote.textContent = '❌ Wrong password';
+      lockNote.style.color = '#ff8b8b';
+    }
+  } else {
+    // re-unlock after auto-lock uses AUTO_LOCK_PWD
+    if (pwd === AUTO_LOCK_PWD){
+      hideLockOverlay();
+      statusMsg.textContent = 'Unlocked (after auto-lock)';
+      statusMsg.style.color = '#a8ffb0';
+      // After auto-unlock, we should restart countdown if desired.
+      // We'll restart a fresh 5-minute window.
+      startCountdown();
+      isAutoLocked = false;
+    } else {
+      lockNote.textContent = '❌ Wrong auto-lock password';
+      lockNote.style.color = '#ff8b8b';
+    }
+  }
+});
+
+btnClear.addEventListener('click', () => {
+  unlockPwd.value = '';
+  lockNote.textContent = '';
+});
+
+btnAdd.addEventListener('click', () => {
+  const id = document.getElementById('accId').value.trim();
+  const gmail = document.getElementById('accGmail').value.trim();
+  const device = document.getElementById('accDevice').value.trim();
+  if (!id || !gmail || !device){
+    statusMsg.textContent = 'Fill all fields';
+    statusMsg.style.color = '#ffd2a8';
+    return;
+  }
+  const arr = loadAccounts();
+  arr.push({ id, gmail, device, addedAt: Date.now() });
+  saveAccounts(arr);
+  renderAccounts();
+  document.getElementById('accId').value = '';
+  document.getElementById('accGmail').value = '';
+  document.getElementById('accDevice').value = '';
+  statusMsg.textContent = 'Added';
+  statusMsg.style.color = '#a8ffb0';
+});
+
+btnLockNow.addEventListener('click', () => {
+  // Immediately lock as if auto-locked
+  manualLockNow();
+});
+
+// init on load
+init();
+
+// keep UI countdown accurate if user switches tabs / windows
+window.addEventListener('visibilitychange', () => {
+  if (!document.hidden && countdownTimer) updateCountdownUI();
+});
+
 </script>
-
 </body>
 </html>
-
-
-
-
